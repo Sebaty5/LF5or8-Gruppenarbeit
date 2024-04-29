@@ -1,0 +1,21 @@
+#content {
+    display: flex;
+    border: dotted;
+    height: 96vh;
+    width: 98vw;
+}
+
+
+#heading {
+    display: flex;
+    border: dotted;
+    height: 10vh;
+    width: 98vw;
+    justify-content: center;
+}
+#main {
+    display: flex;
+    border: dotted;
+
+}
+
