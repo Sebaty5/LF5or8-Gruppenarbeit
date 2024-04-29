@@ -1,8 +1,10 @@
 #content {
     display: flex;
+    border: dotted;
 }
 
 #heading {
+    border: dotted;
         margin-left: auto;
         margin-right: auto;
 }
