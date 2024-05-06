@@ -40,10 +40,10 @@ public class Kaufvertrag implements IKaufvertrag {
 
     @Override
     public String toString() {
-        return "Kaufvertrag:" +
-                verkauefer +
-                kauefer +
-                ware +
-                "Zahlungsmodalität: " + zahlungsmodalitaet;
+        return "\nKaufvertrag:" +
+                "\n" + verkauefer +
+                "\n" + kauefer +
+                "\n" + ware +
+                "\nZahlungsmodalität: " + zahlungsmodalitaet;
     }
 }
