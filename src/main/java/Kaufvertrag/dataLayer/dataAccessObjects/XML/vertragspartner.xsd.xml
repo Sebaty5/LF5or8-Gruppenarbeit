@@ -1,4 +1,4 @@
-<w3s:vertragspartner xmlns:w3s="https://www.w3schools.com">
+<vertragspartner xmlns:w3s="https://www.w3schools.com">
   <w3s:ausweisNr>string</w3s:ausweisNr>
   <w3s:vorname>string</w3s:vorname>
   <w3s:nachname>string</w3s:nachname>
@@ -8,4 +8,4 @@
     <w3s:plz>string</w3s:plz>
     <w3s:ort>string</w3s:ort>
   </w3s:adresse>
-</w3s:vertragspartner>
+</vertragspartner>
