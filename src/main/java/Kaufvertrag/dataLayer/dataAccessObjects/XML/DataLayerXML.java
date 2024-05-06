@@ -10,11 +10,11 @@ public class DataLayerXML implements IDataLayer {
 
     @Override
     public IDao<IVertragspartner, String> getDaoVertragspartner() {
-        return null;
+        return new VertragspartnerDaoXML();
     }
 
     @Override
     public IDao<IWare, Long> getDaoWare() {
-        return null;
+        return new WareDaoXML();
     }
 }

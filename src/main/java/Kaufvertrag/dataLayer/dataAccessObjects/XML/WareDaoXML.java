@@ -1,6 +1,7 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessInterfaces.IWare;
+import Kaufvertrag.dataLayer.businessClasses.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,7 +20,7 @@ import java.util.List;
 public class WareDaoXML implements IDao<IWare, Long> {
     @Override
     public IWare create() {
-        return null;
+        return new Ware("testWare", 10);
     }
 
     @Override
