@@ -5,43 +5,29 @@ import Kaufvertrag.businessInterfaces.IVertragspartner;
 import Kaufvertrag.businessInterfaces.IWare;
 
 public class Kaufvertrag implements IKaufvertrag {
-    @Override
-    public IVertragspartner getVerkauefer() {
-        return null;
-    }
+
+    private IVertragspartner verkauefer;
+    private IVertragspartner kauefer;
+    private IWare ware;
+    private String zahlungsmodalitaet;
 
     @Override
-    public void setVerkauefer(IVertragspartner n_verkauefer) {
-
-    }
+    public IVertragspartner getVerkauefer() { return verkauefer; }
+    @Override
+    public void setVerkauefer(IVertragspartner n_verkauefer) { verkauefer = n_verkauefer; }
 
     @Override
-    public IVertragspartner getKauefer() {
-        return null;
-    }
+    public IVertragspartner getKauefer() { return kauefer; }
+    @Override
+    public void setKauefer(IVertragspartner n_kauefer) { kauefer = n_kauefer; }
 
     @Override
-    public void setKauefer(IVertragspartner n_kauefer) {
-
-    }
+    public IWare getWare() { return ware; }
+    @Override
+    public void setWare(IWare n_ware) { ware = n_ware; }
 
     @Override
-    public IWare getWare() {
-        return null;
-    }
-
+    public String getZahlungsModalitaeten() { return zahlungsmodalitaet; }
     @Override
-    public void setWare(IWare n_ware) {
-
-    }
-
-    @Override
-    public String getZahlungsModalitaeten() {
-        return "";
-    }
-
-    @Override
-    public void setZahlungsmodalitaeten(String n_zahlungsmodalitaeten) {
-
-    }
+    public void setZahlungsmodalitaeten(String n_zahlungsmodalitaeten) { zahlungsmodalitaet = n_zahlungsmodalitaeten; }
 }

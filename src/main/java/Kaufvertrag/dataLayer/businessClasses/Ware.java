@@ -5,48 +5,36 @@ import Kaufvertrag.businessInterfaces.IWare;
 import java.util.List;
 
 public class Ware implements IWare {
-    @Override
-    public long getId() {
-        return 0;
-    }
+
+    private long id;
+    private String bezeichnung;
+    private String beschreibung;
+    private double preis;
+    private List<String> besonderheiten;
+    private List<String> maengel;
+
 
     @Override
-    public String getBezeichnung() {
-        return "";
-    }
+    public long getId() { return id; }
 
     @Override
-    public void setBezeichnung(String n_bezeichnung) {
-
-    }
+    public String getBezeichnung() { return bezeichnung; }
+    @Override
+    public void setBezeichnung(String n_bezeichnung) { bezeichnung = n_bezeichnung; }
 
     @Override
-    public String getBeschreibung() {
-        return "";
-    }
+    public String getBeschreibung() { return beschreibung; }
+    @Override
+    public void setBeschreibung(String n_beschreibung) { beschreibung = n_beschreibung; }
 
     @Override
-    public void setBeschreibung(String n_beschreibung) {
-
-    }
+    public double getPreis() { return preis; }
+    @Override
+    public void setPreis(double n_preis) { preis = n_preis; }
 
     @Override
-    public double getPreis() {
-        return 0;
-    }
+    public List<String> getBesonderheiten() { return besonderheiten; }
 
     @Override
-    public void setPreis(double n_preis) {
-
-    }
-
-    @Override
-    public List<String> getBesonderheiten() {
-        return List.of();
-    }
-
-    @Override
-    public List<String> getMaengel() {
-        return List.of();
-    }
+    public List<String> getMaengel() { return maengel; }
 }

@@ -3,43 +3,29 @@ package Kaufvertrag.dataLayer.businessClasses;
 import Kaufvertrag.businessInterfaces.IAdresse;
 
 public class Adresse implements IAdresse {
-    @Override
-    public String getStrasse() {
-        return "";
-    }
+
+    private String strasse;
+    private String hausNr;
+    private String plz;
+    private String ort;
 
     @Override
-    public void setStrasse(String n_strasse) {
-
-    }
+    public String getStrasse() { return strasse; }
+    @Override
+    public void setStrasse(String n_strasse) { strasse = n_strasse; }
 
     @Override
-    public String getHausNr() {
-        return "";
-    }
+    public String getHausNr() { return hausNr; }
+    @Override
+    public void setHausNr(String n_hausNr) { hausNr = n_hausNr; }
 
     @Override
-    public void setHausNr(String n_hausNr) {
-
-    }
+    public String getPlz() { return plz; }
+    @Override
+    public void setPlz(String n_plz) { plz = n_plz; }
 
     @Override
-    public String getPlz() {
-        return "";
-    }
-
+    public String getOrt() { return ort; }
     @Override
-    public void setPlz(String n_plz) {
-
-    }
-
-    @Override
-    public String getOrt() {
-        return "";
-    }
-
-    @Override
-    public void setOrt(String n_ort) {
-
-    }
+    public void setOrt(String n_ort) { ort = n_ort; }
 }
