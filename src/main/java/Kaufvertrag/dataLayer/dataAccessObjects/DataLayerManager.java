@@ -1,12 +1,7 @@
 package Kaufvertrag.dataLayer.dataAccessObjects;
 
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import java.io.*;
-
-//This is a factory
 public class DataLayerManager {
-    private static DataLayerManager instance;
+    private static DataLayerManager instance; // instance is a Singleton
     private String persistenceType;
 
     private DataLayerManager(){}
