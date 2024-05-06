@@ -30,4 +30,22 @@ public class Vertragspartner implements IVertragspartner {
     public IAdresse getAdresse() { return adresse; }
     @Override
     public void setAdresse(IAdresse n_adresse) { adresse = n_adresse; }
+
+    public Vertragspartner(String vorname, String nachname)
+    {
+        setVorname(vorname);
+        setNachname(nachname);
+    }
+
+    @Override
+    public String toString()
+    {
+        //TODO second look
+        return "Vertragspartner{" +
+                "ausweisNr='" + ausweisNr + '\'' +
+                ", vorname='" + vorname + '\'' +
+                ", nachname='" + nachname + '\'' +
+                ", adresse=" + adresse +
+                '}';
+    }
 }
