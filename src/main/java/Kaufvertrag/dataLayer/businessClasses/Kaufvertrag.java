@@ -30,4 +30,17 @@ public class Kaufvertrag implements IKaufvertrag {
     public String getZahlungsModalitaeten() { return zahlungsmodalitaet; }
     @Override
     public void setZahlungsmodalitaeten(String n_zahlungsmodalitaeten) { zahlungsmodalitaet = n_zahlungsmodalitaeten; }
+
+    public Kaufvertrag(IVertragspartner kaeufer, IVertragspartner verkaeufer, IWare ware) {
+        setKauefer(kaeufer);
+        setVerkauefer(verkaeufer);
+        setWare(ware);
+    }
+
+    @Override
+    public String toString()
+    {
+        //TODO Add useful toString
+        return super.toString();
+    }
 }
