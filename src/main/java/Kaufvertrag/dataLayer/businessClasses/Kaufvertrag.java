@@ -11,6 +11,7 @@ public class Kaufvertrag implements IKaufvertrag {
     private IWare ware;
     private String zahlungsmodalitaet;
 
+
     @Override
     public IVertragspartner getVerkauefer() { return verkauefer; }
     @Override
