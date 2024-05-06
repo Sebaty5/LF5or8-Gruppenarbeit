@@ -51,13 +51,13 @@ public class Ware implements IWare {
 
     @Override
     public String toString() {
-        return "Ware:" +
-                " Id=" + id +
-                ", Bezeichnung:" + bezeichnung +
-                ", Beschreibung:" + beschreibung +
-                ", Preis:" + preis +
-                ", Besonderheiten:" + besonderheiten +
-                ", Mängel=" + maengel;
+        return "Ware" +
+                "Id: " + id +
+                "Bezeichnung: " + bezeichnung +
+                "Beschreibung: " + beschreibung +
+                "Preis: " + preis +
+                "Besonderheiten: " + besonderheiten +
+                "Mängel: " + maengel;
     }
 }
 

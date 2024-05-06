@@ -59,10 +59,10 @@ public class Adresse implements IAdresse {
 
     @Override
     public String toString() {
-        return "Adresse:" +
-                " Strasse:" + strasse +
-                ", HausNr:" + hausNr +
-                ", PLZ:" + plz +
-                ", Ort:" + ort;
+        return "Adresse" +
+                " Strasse: " + strasse +
+                ", HausNr: " + hausNr +
+                ", PLZ: " + plz +
+                ", Ort: " + ort;
     }
 }
