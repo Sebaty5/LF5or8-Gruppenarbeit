@@ -9,6 +9,7 @@ public class Adresse implements IAdresse {
     private String plz;
     private String ort;
 
+
     @Override
     public String getStrasse() { return strasse; }
     @Override

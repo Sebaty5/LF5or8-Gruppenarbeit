@@ -1,0 +1,8 @@
+<w3s:ware xmlns:w3s="https://www.w3schools.com">
+  <w3s:id>3</w3s:id>
+  <w3s:bezeichnung>string</w3s:bezeichnung>
+  <w3s:beschreibung>string</w3s:beschreibung>
+  <w3s:preis>1.051732E7</w3s:preis>
+  <w3s:besonderheit>string</w3s:besonderheit>
+  <w3s:maengel>string</w3s:maengel>
+</w3s:ware>
