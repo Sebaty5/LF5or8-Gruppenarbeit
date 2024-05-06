@@ -28,4 +28,24 @@ public class Adresse implements IAdresse {
     public String getOrt() { return ort; }
     @Override
     public void setOrt(String n_ort) { ort = n_ort; }
+
+    public Adresse(String strasse, String hausNr, String plz, String ort)
+    {
+        this.strasse = strasse;
+        this.hausNr = hausNr;
+        this.plz = plz;
+        this.ort = ort;
+    }
+
+    @Override
+    public String toString()
+    {
+        //TODO needs second look
+        return "Adresse{" +
+                "strasse='" + strasse + '\'' +
+                ", hausNr='" + hausNr + '\'' +
+                ", plz='" + plz + '\'' +
+                ", ort='" + ort + '\'' +
+                '}';
+    }
 }
