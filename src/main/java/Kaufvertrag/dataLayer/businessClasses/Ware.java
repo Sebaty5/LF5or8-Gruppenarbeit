@@ -37,4 +37,30 @@ public class Ware implements IWare {
 
     @Override
     public List<String> getMaengel() { return maengel; }
+
+    public Ware(String bezeichnung, double preis)
+    {
+        setBezeichnung(bezeichnung);
+        setPreis(preis);
+    }
+
+    public void setId(long id)
+    {
+        this.id = id;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Ware{" +
+                "id=" + id +
+                ", bezeichnung='" + bezeichnung + '\'' +
+                ", beschreibung='" + beschreibung + '\'' +
+                ", preis=" + preis +
+                ", besonderheiten=" + besonderheiten +
+                ", maengel=" + maengel +
+                '}';
+    }
 }
+
+
