@@ -11,6 +11,11 @@ public class Vertragspartner implements IVertragspartner {
     private IAdresse adresse;
 
 
+    public Vertragspartner(String vorname, String nachname) {
+        setVorname(vorname);
+        setNachname(nachname);
+    }
+
     @Override
     public String getAusweisNr() {
         return ausweisNr;
@@ -49,11 +54,6 @@ public class Vertragspartner implements IVertragspartner {
     @Override
     public void setAdresse(IAdresse n_adresse) {
         adresse = n_adresse;
-    }
-
-    public Vertragspartner(String vorname, String nachname) {
-        setVorname(vorname);
-        setNachname(nachname);
     }
 
     @Override

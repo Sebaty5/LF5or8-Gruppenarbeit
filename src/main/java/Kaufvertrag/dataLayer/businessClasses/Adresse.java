@@ -10,6 +10,13 @@ public class Adresse implements IAdresse {
     private String ort;
 
 
+    public Adresse(String strasse, String hausNr, String plz, String ort) {
+        this.strasse = strasse;
+        this.hausNr = hausNr;
+        this.plz = plz;
+        this.ort = ort;
+    }
+
     @Override
     public String getStrasse() {
         return strasse;
@@ -48,13 +55,6 @@ public class Adresse implements IAdresse {
     @Override
     public void setOrt(String n_ort) {
         ort = n_ort;
-    }
-
-    public Adresse(String strasse, String hausNr, String plz, String ort) {
-        this.strasse = strasse;
-        this.hausNr = hausNr;
-        this.plz = plz;
-        this.ort = ort;
     }
 
     @Override
