@@ -10,13 +10,16 @@ public class Ware implements IWare {
     private String bezeichnung;
     private String beschreibung;
     private double preis;
-    private List<String> besonderheiten;
-    private List<String> maengel;
+    private final List<String> besonderheiten;
+    private final List<String> maengel;
 
-    public Ware(String bezeichnung, double preis)
+    public Ware(String n_bezeichnung, String n_beschreibung, double n_preis, List<String> n_besonderheiten, List<String> n_maengel)
     {
-        setBezeichnung(bezeichnung);
-        setPreis(preis);
+        bezeichnung = n_bezeichnung;
+        beschreibung = n_beschreibung;
+        preis = n_preis;
+        besonderheiten = n_besonderheiten;
+        maengel = n_maengel;
     }
 
     @Override

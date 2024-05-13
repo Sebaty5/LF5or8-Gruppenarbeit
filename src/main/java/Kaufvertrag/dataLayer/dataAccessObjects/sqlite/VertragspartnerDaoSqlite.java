@@ -23,7 +23,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     }
 
     @Override
-    public List<IVertragspartner> read() {
+    public List<IVertragspartner> readAll() {
         return List.of();
     }
 

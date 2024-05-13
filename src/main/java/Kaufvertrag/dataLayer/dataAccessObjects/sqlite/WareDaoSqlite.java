@@ -24,7 +24,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     }
 
     @Override
-    public List<IWare> read() {
+    public List<IWare> readAll() {
         return List.of();
     }
 

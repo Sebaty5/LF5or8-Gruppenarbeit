@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="https://www.w3schools.com"
@@ -8,7 +8,7 @@
     <xs:element name="ware">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:int"/>
+                <xs:element name="id" type="xs:long"/>
                 <xs:element name="bezeichnung" type="xs:string"/>
                 <xs:element name="beschreibung" type="xs:string"/>
                 <xs:element name="preis" type="xs:double"/>
@@ -16,7 +16,7 @@
                     <xs:element name="besonderheit" type="xs:string"/>
                 </xs:sequence>
                 <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                    <xs:element name="maengel" type="xs:string"/>
+                    <xs:element name="mangel" type="xs:string"/>
                 </xs:sequence>
             </xs:sequence>
         </xs:complexType>
