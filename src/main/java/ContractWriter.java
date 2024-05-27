@@ -46,7 +46,7 @@ public class ContractWriter {
 
     private static Kaufvertrag createContract() throws IOException {
         List<Vertragspartner> parties = readFromCsv(csvFile);
-        return new Kaufvertrag(parties.get(0), parties.get(1), new Ware("a", 1.00));
+        return new Kaufvertrag(parties.get(0), parties.get(1), new Ware("test", "test", 20, null, null));
     }
 
     private static List<Vertragspartner> readFromCsv(String filePath) throws IOException {
@@ -68,7 +68,7 @@ public class ContractWriter {
                 parties.add(party);
             } else {
                 String name = parts[1];
-                Ware ware = new Ware(name, 1.00);
+                Ware ware = new Ware("test", "test", 20, null, null);
                 products.add(ware);
             }
         }

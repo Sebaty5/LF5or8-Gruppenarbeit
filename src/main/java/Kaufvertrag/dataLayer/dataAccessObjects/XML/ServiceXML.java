@@ -1,111 +1,152 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
+import javax.xml.transform.stream.StreamResult;
 
 import Kaufvertrag.businessInterfaces.IWare;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.net.URL;
-import javax.xml.validation.Schema;
+import Kaufvertrag.dataLayer.businessClasses.Ware;
+import org.w3c.dom.*;
+import java.io.File;
+import java.util.List;
 
 public class ServiceXML {
-
-    private static final String XSD_SCHEMA = "http://www.w3.org/2001/XMLSchema";
+    private static final String WARE_XML = "wareList.xml"; // Adjust the path as needed
 
     public static IWare read(Long id) {
-
+        // Implementation of read method
         return null;
     }
 
+    public static void main(String[] args) {
+        List<String> besonderheiten = List.of("Ist toll");
+        List<String> maengel = List.of("ist aber auch kaputt");
+
+        Ware test = new Ware("test", "test", 20, besonderheiten, maengel);
+        Ware test2 = new Ware("test2", "test2", 20, besonderheiten, maengel);
+        test.setId(10);
+        test2.setId(11);
+        write(test);
+        write(test2);
+    }
+
+    private static void printDocument(Document doc) {
+        // Get the root element of the document
+        Element rootElement = doc.getDocumentElement();
+        // Print the root element
+        System.out.println(rootElement.getNodeName());
+        // Print child elements recursively
+        printElements(rootElement.getChildNodes(), 1);
+    }
+
+    // Recursive method to print child elements
+    private static void printElements(NodeList nodeList, int depth) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                // Print element name with indentation based on depth
+                System.out.print(getIndentation(depth) + element.getNodeName());
+                // Print element attributes, if any
+                NamedNodeMap attributes = element.getAttributes();
+                for (int j = 0; j < attributes.getLength(); j++) {
+                    Node attribute = attributes.item(j);
+                    System.out.print(" " + attribute.getNodeName() + "=" + attribute.getNodeValue());
+                }
+                System.out.println();
+                // Recursively print child elements
+                printElements(element.getChildNodes(), depth + 1);
+            }
+        }
+    }
+
+    // Utility method to generate indentation based on depth
+    private static String getIndentation(int depth) {
+        StringBuilder indentation = new StringBuilder();
+        for (int i = 0; i < depth; i++) {
+            indentation.append("  "); // Two spaces for each depth level
+        }
+        return indentation.toString();
+    }
+
     public static void write(IWare ware) {
-        try
-        {
+        try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             dbFactory.setNamespaceAware(true);
-            Document doc = dbFactory.newDocumentBuilder().parse(new InputSource("ware.xsd"));
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.newDocument();
 
-            // Create and append root element
-            Element rootElement = doc.createElement("ware");
+            // Create root element
+            Element rootElement = doc.createElementNS("https://www.w3schools.com", "wareList");
             doc.appendChild(rootElement);
 
-            // Create and append ComplexType to root element
-            Element complexType = doc.createElementNS(XSD_SCHEMA, "xs:complexType");
-            rootElement.appendChild(complexType);
+            // Convert Ware object to XML Element
+            Element wareElement = createWareElement(doc, ware);
+            rootElement.appendChild(wareElement);
 
-            // Create and append rootSequence, which contains the variables of ware, to complexType
-            Element rootSequence = doc.createElementNS(XSD_SCHEMA, "xs:sequence");
-            complexType.appendChild(rootSequence);
+            // Write the content into an XML file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(WARE_XML));
 
-            // Create and append elements: id, bezeichnung, beschreibung, preis to rootSequence
-            Element idElement = doc.createElement("id");
-            // set namespace attributes (attributes in the element header)
-            idElement.setAttributeNS(null, "name", "id");
-            idElement.setAttributeNS(null, "type", "long");
-            // set attribute
-            idElement.setTextContent(String.valueOf(ware.getId()));
-            rootSequence.appendChild(idElement);
+            transformer.transform(source, result);
 
-            Element bezeichnungElement = doc.createElement("bezeichnung");
-            bezeichnungElement.setAttributeNS(null, "name", "bezeichnung");
-            bezeichnungElement.setAttributeNS(null, "type", "string");
-            bezeichnungElement.setTextContent(ware.getBezeichnung());
-            rootSequence.appendChild(bezeichnungElement);
+            // Output to console for testing
+            StreamResult consoleResult = new StreamResult(System.out);
+            transformer.transform(source, consoleResult);
 
-            Element beschreibungElement = doc.createElement("beschreibung");
-            beschreibungElement.setAttributeNS(null, "name", "beschreibung");
-            beschreibungElement.setAttributeNS(null, "type", "string");
-            beschreibungElement.setTextContent(ware.getBeschreibung());
-            rootSequence.appendChild(beschreibungElement);
-
-            Element preisElement = doc.createElement("preis");
-            preisElement.setAttributeNS(null, "name", "preis");
-            preisElement.setAttributeNS(null, "type", "double");
-            preisElement.setTextContent(String.valueOf(ware.getPreis()));
-            rootSequence.appendChild(preisElement);
-
-            // Create and append besonderheiten and maengel as sequences
-            Element subSequence = doc.createElementNS(XSD_SCHEMA, "xs:sequence");
-            complexType.appendChild(rootSequence);
-
-            subSequence = doc.createElementNS(XSD_SCHEMA, "xs:sequence");
-            complexType.appendChild(rootSequence);
-
-            // Create and append all entries of besonderheiten and maengel
-            for (String besonderheit : ware.getBesonderheiten())
-            {
-                Element besonderheitToAdd = doc.createElement("besonderheit");
-                besonderheitToAdd.setTextContent(besonderheit);
-                subSequence.appendChild(besonderheitToAdd);
-            }
-
-            for (String mangel : ware.getMaengel())
-            {
-                Element besonderheitToAdd = doc.createElement("besonderheit");
-                besonderheitToAdd.setTextContent(mangel);
-                subSequence.appendChild(besonderheitToAdd);
-            }
-
-            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            URL schemaURL = new URL("ware.xml");
-            Schema wareSchema = sf.newSchema(schemaURL);
-            Validator wareValidator = wareSchema.newValidator();
-            wareValidator.validate(new DOMSource(doc));
-
-
-
+        } catch (ParserConfigurationException | TransformerException e) {
+            e.printStackTrace();
         }
-        catch (ParserConfigurationException | IOException | SAXException e)
-        {
-            throw new RuntimeException(e);
+    }
+
+    private static Element createWareElement(Document doc, IWare ware) {
+        Element wareElement = doc.createElementNS("https://www.w3schools.com", "ware");
+
+        // Id element
+        Element idElement = doc.createElementNS("https://www.w3schools.com", "id");
+        idElement.appendChild(doc.createTextNode(String.valueOf(ware.getId())));
+        wareElement.appendChild(idElement);
+
+        // Bezeichnung element
+        Element bezeichnungElement = doc.createElementNS("https://www.w3schools.com", "bezeichnung");
+        bezeichnungElement.appendChild(doc.createTextNode(ware.getBezeichnung()));
+        wareElement.appendChild(bezeichnungElement);
+
+        // Beschreibung element
+        Element beschreibungElement = doc.createElementNS("https://www.w3schools.com", "beschreibung");
+        beschreibungElement.appendChild(doc.createTextNode(ware.getBeschreibung()));
+        wareElement.appendChild(beschreibungElement);
+
+        // Preis element
+        Element preisElement = doc.createElementNS("https://www.w3schools.com", "preis");
+        preisElement.appendChild(doc.createTextNode(String.valueOf(ware.getPreis())));
+        wareElement.appendChild(preisElement);
+
+        // Besonderheiten elements
+        for (String besonderheit : ware.getBesonderheiten()) {
+            Element besonderheitElement = doc.createElementNS("https://www.w3schools.com", "besonderheit");
+            besonderheitElement.appendChild(doc.createTextNode(besonderheit));
+            wareElement.appendChild(besonderheitElement);
         }
+
+        // Mangel elements
+        for (String mangel : ware.getMaengel()) {
+            Element mangelElement = doc.createElementNS("https://www.w3schools.com", "mangel");
+            mangelElement.appendChild(doc.createTextNode(mangel));
+            wareElement.appendChild(mangelElement);
+        }
+
+        return wareElement;
     }
 }
