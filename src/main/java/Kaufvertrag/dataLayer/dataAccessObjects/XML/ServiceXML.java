@@ -14,26 +14,60 @@ import javax.xml.transform.stream.StreamResult;
 import Kaufvertrag.businessInterfaces.IWare;
 import Kaufvertrag.dataLayer.businessClasses.Ware;
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class ServiceXML {
+public class ServiceXML
+{
     private static final String WARE_XML = "LF5or8-Gruppenarbeit/src/main/java/Kaufvertrag/dataLayer/dataAccessObjects/XML/wareTest.xml"; // Adjust the path as needed
 
-    public static IWare read(Long id) {
-        // Implementation of read method
-        return null;
-    }
-
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         List<String> besonderheiten = List.of("Ist toll");
         List<String> maengel = List.of("ist aber auch kaputt");
 
         Ware test = new Ware("test", "test", 20, besonderheiten, maengel);
         test.setId(10);
-        write(test);
+        //write(test);
+    }
+
+    public static Document read()
+    {
+        Document doc = null;
+        try
+        {
+            File xmlFile = new File(WARE_XML);
+            if (!xmlFile.exists())
+            {
+                System.out.println("The file " + WARE_XML + " does not exist.");
+                return null;
+            }
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setNamespaceAware(true);
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            doc = dBuilder.parse(xmlFile);
+            doc.getDocumentElement().normalize();
+            //printDocument(doc);
+        }
+        catch (ParserConfigurationException | SAXException | IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return doc;
+    }
+
+    private static void printDocument(Document doc) throws TransformerException {
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        DOMSource source = new DOMSource(doc);
+        StreamResult console = new StreamResult(System.out);
+        transformer.transform(source, console);
     }
 
     public static void write(IWare ware)
@@ -47,9 +81,11 @@ public class ServiceXML {
 
             File xmlFile = new File(WARE_XML);
 
-            if (!xmlFile.exists()) {
+            if (!xmlFile.exists())
+            {
                 boolean isFileCreated = xmlFile.createNewFile();
-                if (!isFileCreated) {
+                if (!isFileCreated)
+                {
                     throw new IOException("Failed to create new file: " + WARE_XML);
                 }
             }
@@ -93,27 +129,22 @@ public class ServiceXML {
         String prefix = "w3s:";
         Element wareElement = doc.createElementNS("https://www.w3schools.com", prefix + "ware");
 
-        // Id element
         Element idElement = doc.createElementNS("https://www.w3schools.com", prefix + "id");
         idElement.appendChild(doc.createTextNode(String.valueOf(ware.getId())));
         wareElement.appendChild(idElement);
 
-        // Bezeichnung element
         Element bezeichnungElement = doc.createElementNS("https://www.w3schools.com", prefix + "bezeichnung");
         bezeichnungElement.appendChild(doc.createTextNode(ware.getBezeichnung()));
         wareElement.appendChild(bezeichnungElement);
 
-        // Beschreibung element
         Element beschreibungElement = doc.createElementNS("https://www.w3schools.com", prefix + "beschreibung");
         beschreibungElement.appendChild(doc.createTextNode(ware.getBeschreibung()));
         wareElement.appendChild(beschreibungElement);
 
-        // Preis element
         Element preisElement = doc.createElementNS("https://www.w3schools.com", prefix + "preis");
         preisElement.appendChild(doc.createTextNode(String.valueOf(ware.getPreis())));
         wareElement.appendChild(preisElement);
 
-        // Besonderheiten elements
         for (String besonderheit : ware.getBesonderheiten())
         {
             Element besonderheitElement = doc.createElementNS("https://www.w3schools.com", prefix + "besonderheit");
@@ -121,7 +152,6 @@ public class ServiceXML {
             wareElement.appendChild(besonderheitElement);
         }
 
-        // Mangel elements
         for (String mangel : ware.getMaengel())
         {
             Element mangelElement = doc.createElementNS("https://www.w3schools.com", prefix + "mangel");
