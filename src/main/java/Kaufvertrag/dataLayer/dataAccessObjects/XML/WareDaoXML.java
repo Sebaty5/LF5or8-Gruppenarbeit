@@ -47,6 +47,16 @@ public class WareDaoXML implements IDao<IWare, Long>
     @Override
     public IWare read(Long id)
     {
+        List<IWare> wareList = readAll();
+
+        for(IWare ware : wareList)
+        {
+           if(ware.getId() == id)
+           {
+               return ware;
+           }
+        }
+        System.out.println("Ware with the id " + id + " not found!");
         return null;
     }
 
@@ -55,16 +65,19 @@ public class WareDaoXML implements IDao<IWare, Long>
     {
         Document content = ServiceXML.read(WARE_XML);
 
-        if (content == null) {
+        if (content == null)
+        {
             return List.of(); // Return an empty list if content is null
         }
 
         List<IWare> wareList = new ArrayList<>();
         NodeList nodeList = content.getElementsByTagName("ware");
 
-        for (int i = 0; i < nodeList.getLength(); i++) {
+        for (int i = 0; i < nodeList.getLength(); i++)
+        {
             Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
+            if (node.getNodeType() == Node.ELEMENT_NODE)
+            {
                 Element wareElement = (Element) node;
                 IWare ware = domElementToWare(wareElement);
                 wareList.add(ware);
