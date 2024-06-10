@@ -1,6 +1,5 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,14 +10,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import Kaufvertrag.businessInterfaces.IWare;
-import Kaufvertrag.dataLayer.businessClasses.Ware;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class ServiceXML
 {
@@ -48,17 +44,6 @@ public class ServiceXML
         return doc;
     }
 
-    // For testing purposes only
-    private static void printDocument(Document doc) throws TransformerException {
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        DOMSource source = new DOMSource(doc);
-        StreamResult console = new StreamResult(System.out);
-        transformer.transform(source, console);
-    }
-
     public static void write(Element domElementToWrite, String path)
     {
         try
@@ -84,7 +69,7 @@ public class ServiceXML
             rootElement.setAttribute("xmlns:w3s", "https://www.w3schools.com");
             doc.appendChild(rootElement);
 
-            rootElement.appendChild(domElementToInsert);
+            rootElement.appendChild(domElementToWrite);
 
             // Write the content into an XML file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -111,5 +96,16 @@ public class ServiceXML
         }
     }
 
+    // For testing purposes only
+    private static void printDocument(Document doc) throws TransformerException
+    {
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        DOMSource source = new DOMSource(doc);
+        StreamResult console = new StreamResult(System.out);
+        transformer.transform(source, console);
+    }
 
 }
