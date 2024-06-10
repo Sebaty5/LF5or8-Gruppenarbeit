@@ -2,7 +2,73 @@
 <head>
     <title>Gruppenarbeit - Vertragspartner</title>
     <link rel="stylesheet" href="../styles/style.css">
-    <script src="../scripts/script.js"></script>
+    <script>
+
+        function getAll() {
+            const url = "localhost:8080/api/v1/getAll";
+
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("All items:", data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+
+        function getById() {
+            var id = document.getElementById("idInputField").value;
+            const url = "http://localhost:8080/api/v1/get/" + id;
+            fetch(url, { mode: 'no-cors' })
+                .then((response) => response.text())
+                .then((data) => {
+                    console.log("Item:", data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+
+
+        function create() {
+            const url = "localhost:8080/api/v1/create";
+            const data = {
+                id: "New Item",
+                name: "This is a new item.",
+            };
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("Created item:", data);
+                })
+                .catch((error) => {
+                    console.error("Error creating data:", error);
+                });
+
+        }
+        deleteById()();
+
+        function deleteById(id) {
+            const url = "localhost:8080/api/v1/delete/" + id;
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("Item:", data, "deleted.");})
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+
+
+        }
+    </script>
 </head>
 <body>
 <div id="content">
@@ -22,8 +88,8 @@
             <tr>
                 <td>
                     <p>Get with Id:</p>
-                    <input type="text" value=""> <p />
-                    <input type="button" value="get">
+                    <input id="idInputField" type="text" value=""> <p />
+                    <input  type="button" value="get" onclick="getById()">
                     <input type="button" value="get all">
                 </td>
                 <td>
