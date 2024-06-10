@@ -50,6 +50,15 @@ function create() {
 }
 deleteById()();
 
-function deleteById() {
-   return undefined;
+function deleteById(id) {
+    const url = "localhost:8080/api/v1/delete/" + id;
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Item:", data, "deleted.");})
+        .catch((error) => {
+            console.error("Error fetching data:", error);
+        });
+
+
 }

@@ -1,5 +1,5 @@
 #content {
-    display: flex;
+    display: flow;
     border: dotted;
     height: 94vh;
     width: 98vw;
@@ -14,7 +14,7 @@
     justify-content: center;
 }
 #main {
-    display: flex;
+    display: flow;
     border: dotted;
 
 }
