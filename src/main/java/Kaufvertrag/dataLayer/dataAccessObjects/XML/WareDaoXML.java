@@ -5,6 +5,8 @@ import Kaufvertrag.dataLayer.businessClasses.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -51,7 +53,25 @@ public class WareDaoXML implements IDao<IWare, Long>
     @Override
     public List<IWare> readAll()
     {
-        return List.of();
+        Document content = ServiceXML.read(WARE_XML);
+
+        if (content == null) {
+            return List.of(); // Return an empty list if content is null
+        }
+
+        List<IWare> wareList = new ArrayList<>();
+        NodeList nodeList = content.getElementsByTagName("ware");
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element wareElement = (Element) node;
+                IWare ware = domElementToWare(wareElement);
+                wareList.add(ware);
+            }
+        }
+
+        return wareList;
     }
 
     @Override
@@ -115,5 +135,11 @@ public class WareDaoXML implements IDao<IWare, Long>
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    private static IWare domElementToWare(Element ware)
+    {
+        //ToDo
+         return null;
     }
 }
