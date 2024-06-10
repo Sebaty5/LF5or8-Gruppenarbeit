@@ -7,6 +7,9 @@ public class DataLayerManager {
     private DataLayerManager(){}
 
     public static DataLayerManager getInstance() {
+        if(instance == null) {
+            instance = new DataLayerManager();
+        }
         return instance;
     }
 
