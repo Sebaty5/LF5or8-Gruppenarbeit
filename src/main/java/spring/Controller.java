@@ -24,4 +24,14 @@ public class Controller {
         return ResponseEntity.ok(datalayer.getDaoVertragspartner().read(String.valueOf(id)));
 
     }
+
+    @GetMapping("/test")
+    ResponseEntity<String> test() {
+        return ResponseEntity.ok("" +
+                "<h1>es funktioniert!</h1>" +
+                "<ul>" +
+                "<li><a href=\"https://google.de\">Hier gehts zu google</a></li>" +
+                "</ul>");
+
+    }
 }
