@@ -36,45 +36,6 @@ public class ServiceXML {
         write(test);
     }
 
-    private static void printDocument(Document doc) {
-        // Get the root element of the document
-        Element rootElement = doc.getDocumentElement();
-        // Print the root element
-        System.out.println(rootElement.getNodeName());
-        // Print child elements recursively
-        printElements(rootElement.getChildNodes(), 1);
-    }
-
-    // Recursive method to print child elements
-    private static void printElements(NodeList nodeList, int depth) {
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                // Print element name with indentation based on depth
-                System.out.print(getIndentation(depth) + element.getNodeName());
-                // Print element attributes, if any
-                NamedNodeMap attributes = element.getAttributes();
-                for (int j = 0; j < attributes.getLength(); j++) {
-                    Node attribute = attributes.item(j);
-                    System.out.print(" " + attribute.getNodeName() + "=" + attribute.getNodeValue());
-                }
-                System.out.println();
-                // Recursively print child elements
-                printElements(element.getChildNodes(), depth + 1);
-            }
-        }
-    }
-
-    // Utility method to generate indentation based on depth
-    private static String getIndentation(int depth) {
-        StringBuilder indentation = new StringBuilder();
-        for (int i = 0; i < depth; i++) {
-            indentation.append("  "); // Two spaces for each depth level
-        }
-        return indentation.toString();
-    }
-
     public static void write(IWare ware)
     {
         try
