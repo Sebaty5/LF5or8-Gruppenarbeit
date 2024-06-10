@@ -6,6 +6,7 @@ import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import java.util.List;
 
 public class WareDaoSqlite implements IDao<IWare, Long> {
+    private final String tableName = "vertragspartner";
 
 
     @Override
@@ -14,8 +15,8 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     }
 
     @Override
-    public void create(IWare objectToInsert) {
-
+    public IWare create(IWare objectToInsert) {
+        return null; //TODO add return value
     }
 
     @Override

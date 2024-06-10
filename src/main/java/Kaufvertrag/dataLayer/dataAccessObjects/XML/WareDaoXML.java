@@ -17,8 +17,9 @@ public class WareDaoXML implements IDao<IWare, Long> {
     }
 
     @Override
-    public void create(IWare objectToInsert) {
+    public IWare create(IWare objectToInsert) {
         ServiceXML.write(objectToInsert);
+        return null; //TODO add return value
     }
 
     @Override

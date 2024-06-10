@@ -14,8 +14,9 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String> {
     }
 
     @Override
-    public void create(IVertragspartner objectToInsert) {
+    public IVertragspartner create(IVertragspartner objectToInsert) {
 
+        return null; //TODO add return value
     }
 
     @Override
