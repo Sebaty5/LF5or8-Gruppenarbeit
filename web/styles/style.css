@@ -4,7 +4,25 @@
     height: 94vh;
     width: 98vw;
 }
+#functions {
+    width: 250px;
+    height: 250px;
+}
+#create {
+    width: 250px;
+}
+#create2 {
+    position: relative;
 
+    width: 250px;
+}
+.stylishStyle {
+    width: 250px;
+    height: 28px;
+}
+.space-between {
+    width: 20px;
+}
 
 #heading {
     display: flex;
