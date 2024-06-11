@@ -5,6 +5,7 @@ import Kaufvertrag.businessInterfaces.IVertragspartner;
 
 public class Vertragspartner implements IVertragspartner {
 
+    private int ID;
     private String ausweisNr;
     private String vorname;
     private String nachname;
@@ -14,6 +15,18 @@ public class Vertragspartner implements IVertragspartner {
     public Vertragspartner(String vorname, String nachname) {
         setVorname(vorname);
         setNachname(nachname);
+    }
+
+    @Override
+    public int getID()
+    {
+        return ID;
+    }
+
+    @Override
+    public void setID(int ID)
+    {
+        this.ID = ID;
     }
 
     @Override

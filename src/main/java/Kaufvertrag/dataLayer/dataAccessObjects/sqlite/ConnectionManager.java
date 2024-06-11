@@ -12,14 +12,13 @@ import java.util.Map;
 public class ConnectionManager {
     private static final String dbUrl = "jdbc:sqlite:./database/database.db";
     private final int databaseErrorCode = 2;
-    private ArrayList<String> tableNames = new ArrayList<>();
+    private final ArrayList<String> tableNames = new ArrayList<>();
 
     public static final ConnectionManager INSTANCE = new ConnectionManager();
 
 
     private ConnectionManager() {
         createNewDatabase();
-
     }
 
     private void createNewDatabase() {
