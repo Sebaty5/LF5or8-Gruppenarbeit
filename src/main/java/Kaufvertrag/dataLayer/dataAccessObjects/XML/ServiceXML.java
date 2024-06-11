@@ -64,12 +64,7 @@ public class ServiceXML
                 }
             }
 
-            // Create root element
-            Element rootElement = doc.createElement("rootList");
-            rootElement.setAttribute("xmlns:w3s", "https://www.w3schools.com");
-            doc.appendChild(rootElement);
-
-            rootElement.appendChild(domElementToWrite);
+            doc.appendChild(domElementToWrite);
 
             // Write the content into an XML file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -84,7 +79,6 @@ public class ServiceXML
             // Output to console for testing
             StreamResult consoleResult = new StreamResult(System.out);
             transformer.transform(source, consoleResult);
-
         }
         catch (ParserConfigurationException | TransformerException e)
         {

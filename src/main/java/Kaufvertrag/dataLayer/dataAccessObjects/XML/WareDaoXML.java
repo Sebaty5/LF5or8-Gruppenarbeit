@@ -13,11 +13,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class WareDaoXML implements IDao<IWare, Long>
 {
     private static final String WARE_XML = "LF5or8-Gruppenarbeit/src/main/java/Kaufvertrag/dataLayer/dataAccessObjects/XML/wareTest.xml"; // Adjust the path as needed
-
 
     public static void main(String[] args)
     {
@@ -26,22 +26,28 @@ public class WareDaoXML implements IDao<IWare, Long>
 
         Ware test = new Ware("test", "test", 20, besonderheiten, maengel);
         test.setId(10);
+        WareDaoXML wareDaoXML = new WareDaoXML();
+        wareDaoXML.create(test);
     }
 
     @Override
     public IWare create()
     {
-        // Hard coded for now. Inject variables with the content of the text boxes later.
-        Ware testWare = new Ware("testWare", "Eine tolle testWare", 10, new ArrayList<>(), new ArrayList<>());
-        ServiceXML.write(wareToDomElement(testWare), WARE_XML);
+        List<IWare> wareList = readAll();
+        // Hard coded default object
+        IWare testWare = new Ware("testWare", "Eine tolle testWare", 10, new ArrayList<>(), new ArrayList<>());
+        wareList.add(testWare);
+        writeIWareListToXml(wareList);
         return testWare;
     }
 
     @Override
     public IWare create(IWare objectToInsert)
     {
-        ServiceXML.write(wareToDomElement(objectToInsert), WARE_XML);
-        return null;
+        List<IWare> wareList = readAll();
+        wareList.add(objectToInsert);
+        writeIWareListToXml(wareList);
+        return objectToInsert;
     }
 
     @Override
@@ -90,16 +96,21 @@ public class WareDaoXML implements IDao<IWare, Long>
     @Override
     public void update(IWare objectToUpdate)
     {
-
+        List<IWare> wareList = readAll();
+        wareList.remove((int)objectToUpdate.getId());
+        wareList.add(objectToUpdate);
+        writeIWareListToXml(wareList);
     }
 
     @Override
     public void delete(Long id)
     {
-
+        List<IWare> wareList = readAll();
+        wareList.removeIf(ware -> ware.getId() == id);
+        writeIWareListToXml(wareList);
     }
 
-    private static Element wareToDomElement(IWare ware)
+    private Element wareToDomElement(IWare ware)
     {
         try
         {
@@ -150,9 +161,69 @@ public class WareDaoXML implements IDao<IWare, Long>
         return null;
     }
 
-    private static IWare domElementToWare(Element ware)
+    private IWare domElementToWare(Element ware)
     {
-        //ToDo
-         return null;
+        long id = Long.parseLong(Objects.requireNonNull(getChildElementValue(ware, "id")));
+        String bezeichnung = getChildElementValue(ware, "bezeichnung");
+        String beschreibung = getChildElementValue(ware, "beschreibung");
+        double preis = Double.parseDouble(Objects.requireNonNull(getChildElementValue(ware, "preis")));
+
+        List<String> besonderheiten = new ArrayList<>();
+        NodeList besonderheitNodes = ware.getElementsByTagName("besonderheit");
+        for (int i = 0; i < besonderheitNodes.getLength(); i++)
+        {
+            besonderheiten.add(besonderheitNodes.item(i).getTextContent());
+        }
+
+        List<String> maengel = new ArrayList<>();
+        NodeList mangelNodes = ware.getElementsByTagName("mangel");
+        for (int i = 0; i < mangelNodes.getLength(); i++)
+        {
+            maengel.add(mangelNodes.item(i).getTextContent());
+        }
+
+        Ware newWare = new Ware(bezeichnung, beschreibung, preis, besonderheiten, maengel);
+        newWare.setId(id);
+
+        return newWare;
+    }
+
+    private String getChildElementValue(Element parent, String tagName)
+    {
+        NodeList nodeList = parent.getElementsByTagName(tagName);
+        if (nodeList.getLength() > 0) {
+            return nodeList.item(0).getTextContent();
+        }
+        return null;
+    }
+
+    private Element createRootElement()
+    {
+        try
+        {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setNamespaceAware(true);
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.newDocument();
+
+            Element rootElement = doc.createElement("rootList");
+            rootElement.setAttribute("xmlns:w3s", "https://www.w3schools.com");
+
+            return rootElement;
+        }
+        catch (ParserConfigurationException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void writeIWareListToXml(List<IWare> listToWrite)
+    {
+        Element rootElement = createRootElement();
+        for(IWare ware : listToWrite)
+        {
+            rootElement.appendChild(wareToDomElement(ware));
+        }
+        ServiceXML.write(rootElement, WARE_XML);
     }
 }
