@@ -15,9 +15,9 @@ public class Ware implements IWare {
 
     public Ware(String n_bezeichnung, String n_beschreibung, double n_preis, List<String> n_besonderheiten, List<String> n_maengel)
     {
-        bezeichnung = n_bezeichnung;
-        beschreibung = n_beschreibung;
-        preis = n_preis;
+        setBezeichnung(n_bezeichnung);
+        setBeschreibung(n_beschreibung);
+        setPreis(n_preis);
         besonderheiten = n_besonderheiten;
         maengel = n_maengel;
     }
