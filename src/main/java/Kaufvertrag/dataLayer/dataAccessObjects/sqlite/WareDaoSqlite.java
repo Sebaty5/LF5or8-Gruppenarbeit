@@ -15,7 +15,7 @@ import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
-public class WareDaoSqlite implements IDao<IWare, String> {
+public class WareDaoSqlite implements IDao<IWare, Long> {
     private final String tableName = "ware";
 
     public WareDaoSqlite() {
@@ -66,9 +66,9 @@ public class WareDaoSqlite implements IDao<IWare, String> {
     }
 
     @Override
-    public IWare read(String id) {
+    public IWare read(Long id) {
         String sql = "SELECT * FROM " + tableName + " WHERE ID = ?";
-        List<Map<String, String>> resultList = ConnectionManager.INSTANCE.executeQuerySQL(sql, new String[]{id});
+        List<Map<String, String>> resultList = ConnectionManager.INSTANCE.executeQuerySQL(sql, new String[]{String.valueOf(id)});
 
         IWare ware = new Ware(resultList.get(0).get("Bezeichnung"), resultList.get(0).get("Beschreibung"), parseDouble(resultList.get(0).get("Preis")), stringToList(resultList.get(0).get("Besonderheiten")), stringToList(resultList.get(0).get("Maengel")));
         ware.setId(parseInt(resultList.get(0).get("ID")));
@@ -100,9 +100,9 @@ public class WareDaoSqlite implements IDao<IWare, String> {
         ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Long.toString(id), bezeichnung, beschreibung, Double.toString(preis), listToString(besonderheiten), listToString(maengel)});
  }
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         String sql = "DELETE FROM " + tableName + " WHERE ID = ?";
-        ConnectionManager.INSTANCE.executeSQL(sql, new String[]{id});
+        ConnectionManager.INSTANCE.executeSQL(sql, new String[]{String.valueOf(id)});
     }
 
     private String listToString (List<String> list) {

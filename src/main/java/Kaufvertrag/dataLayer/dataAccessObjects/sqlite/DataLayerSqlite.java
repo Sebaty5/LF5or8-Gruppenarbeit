@@ -5,17 +5,11 @@ import Kaufvertrag.businessInterfaces.IWare;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
 
-import javax.lang.model.type.NullType;
-
 //This is a factory for IDao's
 public class DataLayerSqlite implements IDataLayer {
     @Override
-    public IDao<IVertragspartner, String> getDaoVertragspartner() {
-        return null;
-    }
+    public IDao<IVertragspartner, String> getDaoVertragspartner() { return new VertragspartnerDaoSqlite(); }
 
     @Override
-    public IDao<IWare, Long> getDaoWare() {
-        return null;
-    }
+    public IDao<IWare, Long> getDaoWare() { return new WareDaoSqlite(); }
 }
