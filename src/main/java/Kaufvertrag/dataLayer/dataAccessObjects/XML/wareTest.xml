@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<wareList xmlns:w3s="https://www.w3schools.com">
+<rootList xmlns:w3s="https://www.w3schools.com">
   <w3s:ware>
     <w3s:id>10</w3s:id>
     <w3s:bezeichnung>test</w3s:bezeichnung>
@@ -8,4 +8,4 @@
     <w3s:besonderheit>Ist toll</w3s:besonderheit>
     <w3s:mangel>ist aber auch kaputt</w3s:mangel>
   </w3s:ware>
-</wareList>
+</rootList>

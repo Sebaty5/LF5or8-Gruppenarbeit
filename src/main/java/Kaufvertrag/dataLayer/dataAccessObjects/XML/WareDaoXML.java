@@ -8,16 +8,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class WareDaoXML implements IDao<IWare, Long>
 {
-    private static final String WARE_XML = "LF5or8-Gruppenarbeit/src/main/java/Kaufvertrag/dataLayer/dataAccessObjects/XML/wareTest.xml"; // Adjust the path as needed
+    private static final String WARE_XML = "src/main/java/Kaufvertrag/dataLayer/dataAccessObjects/XML/wareTest.xml"; // Adjust the path as needed
 
     public static void main(String[] args)
     {
@@ -27,7 +24,8 @@ public class WareDaoXML implements IDao<IWare, Long>
         Ware test = new Ware("test", "test", 20, besonderheiten, maengel);
         test.setId(10);
         WareDaoXML wareDaoXML = new WareDaoXML();
-        wareDaoXML.create(test);
+
+        System.out.println(wareDaoXML.read(10L));
     }
 
     @Override
@@ -54,7 +52,6 @@ public class WareDaoXML implements IDao<IWare, Long>
     public IWare read(Long id)
     {
         List<IWare> wareList = readAll();
-
         for(IWare ware : wareList)
         {
            if(ware.getId() == id)
@@ -73,6 +70,7 @@ public class WareDaoXML implements IDao<IWare, Long>
 
         if (content == null)
         {
+            System.out.println("File is empty!");
             return List.of(); // Return an empty list if content is null
         }
 
@@ -89,7 +87,6 @@ public class WareDaoXML implements IDao<IWare, Long>
                 wareList.add(ware);
             }
         }
-
         return wareList;
     }
 
@@ -97,7 +94,7 @@ public class WareDaoXML implements IDao<IWare, Long>
     public void update(IWare objectToUpdate)
     {
         List<IWare> wareList = readAll();
-        wareList.remove((int)objectToUpdate.getId());
+        wareList.removeIf(ware -> ware.getId() == objectToUpdate.getId());
         wareList.add(objectToUpdate);
         writeIWareListToXml(wareList);
     }
@@ -108,57 +105,6 @@ public class WareDaoXML implements IDao<IWare, Long>
         List<IWare> wareList = readAll();
         wareList.removeIf(ware -> ware.getId() == id);
         writeIWareListToXml(wareList);
-    }
-
-    private Element wareToDomElement(IWare ware)
-    {
-        try
-        {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            dbFactory.setNamespaceAware(true);
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.newDocument();
-
-            String prefix = "w3s:";
-            Element wareElement = doc.createElementNS("https://www.w3schools.com", prefix + "ware");
-
-            Element idElement = doc.createElementNS("https://www.w3schools.com", prefix + "id");
-            idElement.appendChild(doc.createTextNode(String.valueOf(ware.getId())));
-            wareElement.appendChild(idElement);
-
-            Element bezeichnungElement = doc.createElementNS("https://www.w3schools.com", prefix + "bezeichnung");
-            bezeichnungElement.appendChild(doc.createTextNode(ware.getBezeichnung()));
-            wareElement.appendChild(bezeichnungElement);
-
-            Element beschreibungElement = doc.createElementNS("https://www.w3schools.com", prefix + "beschreibung");
-            beschreibungElement.appendChild(doc.createTextNode(ware.getBeschreibung()));
-            wareElement.appendChild(beschreibungElement);
-
-            Element preisElement = doc.createElementNS("https://www.w3schools.com", prefix + "preis");
-            preisElement.appendChild(doc.createTextNode(String.valueOf(ware.getPreis())));
-            wareElement.appendChild(preisElement);
-
-            for (String besonderheit : ware.getBesonderheiten())
-            {
-                Element besonderheitElement = doc.createElementNS("https://www.w3schools.com", prefix + "besonderheit");
-                besonderheitElement.appendChild(doc.createTextNode(besonderheit));
-                wareElement.appendChild(besonderheitElement);
-            }
-
-            for (String mangel : ware.getMaengel())
-            {
-                Element mangelElement = doc.createElementNS("https://www.w3schools.com", prefix + "mangel");
-                mangelElement.appendChild(doc.createTextNode(mangel));
-                wareElement.appendChild(mangelElement);
-            }
-
-            return wareElement;
-        }
-        catch (ParserConfigurationException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        return null;
     }
 
     private IWare domElementToWare(Element ware)
@@ -197,33 +143,14 @@ public class WareDaoXML implements IDao<IWare, Long>
         return null;
     }
 
-    private Element createRootElement()
-    {
-        try
-        {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            dbFactory.setNamespaceAware(true);
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.newDocument();
-
-            Element rootElement = doc.createElement("rootList");
-            rootElement.setAttribute("xmlns:w3s", "https://www.w3schools.com");
-
-            return rootElement;
+    private void writeIWareListToXml(List<IWare> listToWrite) {
+        Document doc = ServiceXML.setupAndReturnDBuilder().newDocument();
+        Element rootElement = ServiceXML.createRootElement(doc);
+        doc.appendChild(rootElement);
+        for (IWare ware : listToWrite) {
+            Element wareElement = ServiceXML.createElementFromWare(doc, ware);
+            rootElement.appendChild(wareElement);
         }
-        catch (ParserConfigurationException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void writeIWareListToXml(List<IWare> listToWrite)
-    {
-        Element rootElement = createRootElement();
-        for(IWare ware : listToWrite)
-        {
-            rootElement.appendChild(wareToDomElement(ware));
-        }
-        ServiceXML.write(rootElement, WARE_XML);
+        ServiceXML.write(doc, WARE_XML);
     }
 }
