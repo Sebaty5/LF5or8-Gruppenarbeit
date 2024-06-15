@@ -8,6 +8,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.transform.TransformerException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,11 +22,16 @@ public class WareDaoXML implements IDao<IWare, Long>
         List<String> besonderheiten = List.of("Ist toll");
         List<String> maengel = List.of("ist aber auch kaputt");
 
-        Ware test = new Ware("test", "test", 20, besonderheiten, maengel);
+        Ware test = new Ware("test2", "test2", 20, besonderheiten, maengel);
         test.setId(10);
         WareDaoXML wareDaoXML = new WareDaoXML();
 
-        System.out.println(wareDaoXML.read(10L));
+        //wareDaoXML.create();
+        //wareDaoXML.create(test);
+        //wareDaoXML.update(test);
+        //wareDaoXML.delete(10L);
+        //System.out.println(wareDaoXML.readAll());
+        //System.out.println(wareDaoXML.read(10L));
     }
 
     @Override
@@ -54,10 +60,10 @@ public class WareDaoXML implements IDao<IWare, Long>
         List<IWare> wareList = readAll();
         for(IWare ware : wareList)
         {
-           if(ware.getId() == id)
-           {
-               return ware;
-           }
+            if(ware.getId() == id)
+            {
+                return ware;
+            }
         }
         System.out.println("Ware with the id " + id + " not found!");
         return null;
@@ -71,11 +77,11 @@ public class WareDaoXML implements IDao<IWare, Long>
         if (content == null)
         {
             System.out.println("File is empty!");
-            return List.of(); // Return an empty list if content is null
+            return List.of();
         }
 
         List<IWare> wareList = new ArrayList<>();
-        NodeList nodeList = content.getElementsByTagName("ware");
+        NodeList nodeList = content.getElementsByTagName("w3s:ware");
 
         for (int i = 0; i < nodeList.getLength(); i++)
         {
@@ -109,20 +115,20 @@ public class WareDaoXML implements IDao<IWare, Long>
 
     private IWare domElementToWare(Element ware)
     {
-        long id = Long.parseLong(Objects.requireNonNull(getChildElementValue(ware, "id")));
-        String bezeichnung = getChildElementValue(ware, "bezeichnung");
-        String beschreibung = getChildElementValue(ware, "beschreibung");
-        double preis = Double.parseDouble(Objects.requireNonNull(getChildElementValue(ware, "preis")));
+        long id = Long.parseLong(Objects.requireNonNull(getChildElementValue(ware, ServiceXML.getPrefix() + "id")));
+        String bezeichnung = getChildElementValue(ware, ServiceXML.getPrefix() + "bezeichnung");
+        String beschreibung = getChildElementValue(ware, ServiceXML.getPrefix() + "beschreibung");
+        double preis = Double.parseDouble(Objects.requireNonNull(getChildElementValue(ware, ServiceXML.getPrefix() +"preis")));
 
         List<String> besonderheiten = new ArrayList<>();
-        NodeList besonderheitNodes = ware.getElementsByTagName("besonderheit");
+        NodeList besonderheitNodes = ware.getElementsByTagName(ServiceXML.getPrefix() + "besonderheit");
         for (int i = 0; i < besonderheitNodes.getLength(); i++)
         {
             besonderheiten.add(besonderheitNodes.item(i).getTextContent());
         }
 
         List<String> maengel = new ArrayList<>();
-        NodeList mangelNodes = ware.getElementsByTagName("mangel");
+        NodeList mangelNodes = ware.getElementsByTagName(ServiceXML.getPrefix() + "mangel");
         for (int i = 0; i < mangelNodes.getLength(); i++)
         {
             maengel.add(mangelNodes.item(i).getTextContent());
@@ -143,11 +149,13 @@ public class WareDaoXML implements IDao<IWare, Long>
         return null;
     }
 
-    private void writeIWareListToXml(List<IWare> listToWrite) {
+    private void writeIWareListToXml(List<IWare> listToWrite)
+    {
         Document doc = ServiceXML.setupAndReturnDBuilder().newDocument();
         Element rootElement = ServiceXML.createRootElement(doc);
         doc.appendChild(rootElement);
-        for (IWare ware : listToWrite) {
+        for (IWare ware : listToWrite)
+        {
             Element wareElement = ServiceXML.createElementFromWare(doc, ware);
             rootElement.appendChild(wareElement);
         }

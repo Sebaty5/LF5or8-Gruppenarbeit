@@ -16,19 +16,23 @@ import java.io.IOException;
 
 public class ServiceXML
 {
-    private static Document doc;
+    private static final String prefix = "w3s:";
 
     public static Document read(String path)
     {
         File xmlFile = new File(path);
         try
         {
+            Document doc;
             if (!xmlFile.exists())
             {
-                throw new IOException("The file " + path + " does not exist.");
+                doc = setupAndReturnDBuilder().newDocument();
             }
-            doc = setupAndReturnDBuilder().parse(xmlFile);
-            doc.getDocumentElement().normalize();
+            else
+            {
+                doc = setupAndReturnDBuilder().parse(xmlFile);
+                doc.getDocumentElement().normalize();
+            }
             //printDocument(doc);
             return doc;
         }
@@ -52,50 +56,10 @@ public class ServiceXML
         {
             throw new RuntimeException(e);
         }
-
-        /*
-        doc = setupAndReturnDBuilder().newDocument();
-        File xmlFile = new File(path);
-        try
-        {
-            if (!xmlFile.exists())
-            {
-                boolean isFileCreated = xmlFile.createNewFile();
-                if (!isFileCreated)
-                {
-                    throw new IOException("Failed to create new file: " + path);
-                }
-            }
-
-            doc.appendChild(domElementToWrite);
-
-            // Write the content into an XML file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(path));
-
-            transformer.transform(source, result);
-
-            // Output to console for testing
-            StreamResult consoleResult = new StreamResult(System.out);
-            transformer.transform(source, consoleResult);
-        }
-        catch (TransformerException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-        */
     }
 
     // For testing purposes only
-    private static void printDocument(Document doc) throws TransformerException
+    public static void printDocument(Document doc) throws TransformerException
     {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer();
@@ -135,16 +99,6 @@ public class ServiceXML
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         return transformer;
-    }
-
-    private static Document createNewXMLDocument(String path) throws IOException {
-        Document doc;
-        DocumentBuilder dBuilder = setupAndReturnDBuilder();
-        doc = dBuilder.newDocument();
-        Element rootElement = doc.createElement("rootElement");
-        doc.appendChild(rootElement);
-        write(doc, path);
-        return doc;
     }
 
     public static Element createElementFromWare(Document doc, IWare ware) {
@@ -188,4 +142,6 @@ public class ServiceXML
         rootElement.setAttribute("xmlns:w3s", "https://www.w3schools.com");
         return rootElement;
     }
+
+    public static String getPrefix() { return prefix; }
 }

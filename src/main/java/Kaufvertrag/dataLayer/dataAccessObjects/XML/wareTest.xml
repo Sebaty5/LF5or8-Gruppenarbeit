@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <rootList xmlns:w3s="https://www.w3schools.com">
   <w3s:ware>
-    <w3s:id>10</w3s:id>
-    <w3s:bezeichnung>test</w3s:bezeichnung>
-    <w3s:beschreibung>test</w3s:beschreibung>
-    <w3s:preis>20.0</w3s:preis>
-    <w3s:besonderheit>Ist toll</w3s:besonderheit>
-    <w3s:mangel>ist aber auch kaputt</w3s:mangel>
+    <w3s:id>0</w3s:id>
+    <w3s:bezeichnung>testWare</w3s:bezeichnung>
+    <w3s:beschreibung>Eine tolle testWare</w3s:beschreibung>
+    <w3s:preis>10.0</w3s:preis>
   </w3s:ware>
 </rootList>
