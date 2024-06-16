@@ -8,7 +8,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.transform.TransformerException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +16,7 @@ public class WareDaoXML implements IDao<IWare, Long>
 {
     private static final String WARE_XML = "src/main/java/Kaufvertrag/dataLayer/dataAccessObjects/XML/wareTest.xml"; // Adjust the path as needed
 
+    /*
     public static void main(String[] args)
     {
         List<String> besonderheiten = List.of("Ist toll");
@@ -33,6 +33,7 @@ public class WareDaoXML implements IDao<IWare, Long>
         //System.out.println(wareDaoXML.readAll());
         //System.out.println(wareDaoXML.read(10L));
     }
+     */
 
     @Override
     public IWare create()
@@ -115,10 +116,10 @@ public class WareDaoXML implements IDao<IWare, Long>
 
     private IWare domElementToWare(Element ware)
     {
-        long id = Long.parseLong(Objects.requireNonNull(getChildElementValue(ware, ServiceXML.getPrefix() + "id")));
-        String bezeichnung = getChildElementValue(ware, ServiceXML.getPrefix() + "bezeichnung");
-        String beschreibung = getChildElementValue(ware, ServiceXML.getPrefix() + "beschreibung");
-        double preis = Double.parseDouble(Objects.requireNonNull(getChildElementValue(ware, ServiceXML.getPrefix() +"preis")));
+        long id = Long.parseLong(Objects.requireNonNull(ServiceXML.getChildElementValue(ware, ServiceXML.getPrefix() + "id")));
+        String bezeichnung = ServiceXML.getChildElementValue(ware, ServiceXML.getPrefix() + "bezeichnung");
+        String beschreibung = ServiceXML.getChildElementValue(ware, ServiceXML.getPrefix() + "beschreibung");
+        double preis = Double.parseDouble(Objects.requireNonNull(ServiceXML.getChildElementValue(ware, ServiceXML.getPrefix() +"preis")));
 
         List<String> besonderheiten = new ArrayList<>();
         NodeList besonderheitNodes = ware.getElementsByTagName(ServiceXML.getPrefix() + "besonderheit");
@@ -140,15 +141,6 @@ public class WareDaoXML implements IDao<IWare, Long>
         return newWare;
     }
 
-    private String getChildElementValue(Element parent, String tagName)
-    {
-        NodeList nodeList = parent.getElementsByTagName(tagName);
-        if (nodeList.getLength() > 0) {
-            return nodeList.item(0).getTextContent();
-        }
-        return null;
-    }
-
     private void writeIWareListToXml(List<IWare> listToWrite)
     {
         Document doc = ServiceXML.setupAndReturnDBuilder().newDocument();
@@ -156,9 +148,44 @@ public class WareDaoXML implements IDao<IWare, Long>
         doc.appendChild(rootElement);
         for (IWare ware : listToWrite)
         {
-            Element wareElement = ServiceXML.createElementFromWare(doc, ware);
+            Element wareElement = createElementFromWare(doc, ware);
             rootElement.appendChild(wareElement);
         }
         ServiceXML.write(doc, WARE_XML);
+    }
+
+    private static Element createElementFromWare(Document doc, IWare ware)
+    {
+        Element wareElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "ware");
+
+        Element idElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "id");
+        idElement.appendChild(doc.createTextNode(String.valueOf(ware.getId())));
+        wareElement.appendChild(idElement);
+
+        Element bezeichnungElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "bezeichnung");
+        bezeichnungElement.appendChild(doc.createTextNode(ware.getBezeichnung()));
+        wareElement.appendChild(bezeichnungElement);
+
+        Element beschreibungElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "beschreibung");
+        beschreibungElement.appendChild(doc.createTextNode(ware.getBeschreibung()));
+        wareElement.appendChild(beschreibungElement);
+
+        Element preisElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "preis");
+        preisElement.appendChild(doc.createTextNode(String.valueOf(ware.getPreis())));
+        wareElement.appendChild(preisElement);
+
+        for (String besonderheit : ware.getBesonderheiten()) {
+            Element besonderheitElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "besonderheit");
+            besonderheitElement.appendChild(doc.createTextNode(besonderheit));
+            wareElement.appendChild(besonderheitElement);
+        }
+
+        for (String mangel : ware.getMaengel()) {
+            Element mangelElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "mangel");
+            mangelElement.appendChild(doc.createTextNode(mangel));
+            wareElement.appendChild(mangelElement);
+        }
+
+        return wareElement;
     }
 }

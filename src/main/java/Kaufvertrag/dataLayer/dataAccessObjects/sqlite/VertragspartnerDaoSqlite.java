@@ -46,7 +46,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         vertragspartner.setAusweisNr(ausweisNr);
         String getIDSql = "SELECT ID FROM " + tableName + " ORDER BY ID DESC LIMIT 1;";
         int id = parseInt(ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{}).get(0).get("ID")) + 1;
-        vertragspartner.setID(id);
+        vertragspartner.setId(id);
         String sqlString = "REPLACE INTO " + tableName + " (ID, AusweisNr, Vorname, Nachname, Strasse, HausNr, Plz, Ort) VALUES(?,?,?,?,?,?,?,?)";
         ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Integer.toString(id), ausweisNr, vorname, nachname, strasse, hausNr, plz, ort});
 
@@ -65,7 +65,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
         String getIDSql = "SELECT ID FROM " + tableName + " ORDER BY ID DESC LIMIT 1;";
         int id = parseInt(ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{}).get(0).get("ID")) + 1;
-        objectToInsert.setID(id);
+        objectToInsert.setId(id);
         String sqlString = "REPLACE INTO " + tableName + " (ID, AusweisNr, Vorname, Nachname, Strasse, HausNr, Plz, Ort) VALUES(?,?,?,?,?,?,?,?)";
         ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Integer.toString(id), ausweisNr, vorname, nachname, strasse, hausNr, plz, ort});
         
@@ -80,7 +80,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         vertragspartner.setAusweisNr(resultList.get(0).get("AusweisNr"));
         IAdresse adresse = new Adresse(resultList.get(0).get("Strasse"), resultList.get(0).get("HausNr"), resultList.get(0).get("Plz"), resultList.get(0).get("Ort"));
         vertragspartner.setAdresse(adresse);
-        vertragspartner.setID(parseInt(resultList.get(0).get("ID")));
+        vertragspartner.setId(parseInt(resultList.get(0).get("ID")));
         return vertragspartner;
     }
 
@@ -94,7 +94,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
             vertragspartner.setAusweisNr(m.get("AusweisNr"));
             IAdresse adresse = new Adresse(m.get("Strasse"), m.get("HausNr"), m.get("Plz"), m.get("Ort"));
             vertragspartner.setAdresse(adresse);
-            vertragspartner.setID(parseInt(m.get("ID")));
+            vertragspartner.setId(parseInt(m.get("ID")));
             returnList.add(vertragspartner);
         }
         return returnList;
@@ -109,9 +109,9 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         String hausNr = objectToUpdate.getAdresse().getHausNr();
         String plz = objectToUpdate.getAdresse().getPlz();
         String ort = objectToUpdate.getAdresse().getOrt();
-        int id = objectToUpdate.getID();
+        long id = objectToUpdate.getId();
         String sqlString = "REPLACE INTO " + tableName + " (ID, AusweisNr, Vorname, Nachname, Strasse, HausNr, Plz, Ort) VALUES(?,?,?,?,?,?,?,?)";
-        ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Integer.toString(id), ausweisNr, vorname, nachname, strasse, hausNr, plz, ort});
+        ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Long.toString(id), ausweisNr, vorname, nachname, strasse, hausNr, plz, ort});
     }
 
     @Override

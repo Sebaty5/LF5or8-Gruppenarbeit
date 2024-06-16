@@ -4,17 +4,24 @@
            targetNamespace="https://www.w3schools.com"
            xmlns="https://www.w3schools.com"
            elementFormDefault="qualified">
+<xs:element name="vertragspartnerList">
+    <xs:complexType>
+        <xs:sequence>
 
-    <xs:element name="vertragspartner">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="ausweisNr" type="xs:string"/>
-                <xs:element name="vorname" type="xs:string"/>
-                <xs:element name="nachname" type="xs:string"/>
-                <xs:element name="adresse" type="adresse"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+            <xs:element name="vertragspartner">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ausweisNr" type="xs:string"/>
+                        <xs:element name="vorname" type="xs:string"/>
+                        <xs:element name="nachname" type="xs:string"/>
+                        <xs:element name="adresse" type="adresse"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
 
     <xs:complexType name="adresse">
         <xs:sequence>

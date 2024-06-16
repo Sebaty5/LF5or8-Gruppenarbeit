@@ -1,8 +1,8 @@
 package Kaufvertrag.businessInterfaces;
 
 public interface IVertragspartner {
-    int getID();
-    void setID(int ID);
+    long getId();
+    void setId(long ID);
     String getAusweisNr();
     void setAusweisNr(String n_ausweisNr);
     String getVorname();

@@ -7,7 +7,6 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import Kaufvertrag.businessInterfaces.IWare;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -101,46 +100,20 @@ public class ServiceXML
         return transformer;
     }
 
-    public static Element createElementFromWare(Document doc, IWare ware) {
-        String prefix = "w3s:";
-        Element wareElement = doc.createElementNS("https://www.w3schools.com", prefix + "ware");
-
-        Element idElement = doc.createElementNS("https://www.w3schools.com", prefix + "id");
-        idElement.appendChild(doc.createTextNode(String.valueOf(ware.getId())));
-        wareElement.appendChild(idElement);
-
-        Element bezeichnungElement = doc.createElementNS("https://www.w3schools.com", prefix + "bezeichnung");
-        bezeichnungElement.appendChild(doc.createTextNode(ware.getBezeichnung()));
-        wareElement.appendChild(bezeichnungElement);
-
-        Element beschreibungElement = doc.createElementNS("https://www.w3schools.com", prefix + "beschreibung");
-        beschreibungElement.appendChild(doc.createTextNode(ware.getBeschreibung()));
-        wareElement.appendChild(beschreibungElement);
-
-        Element preisElement = doc.createElementNS("https://www.w3schools.com", prefix + "preis");
-        preisElement.appendChild(doc.createTextNode(String.valueOf(ware.getPreis())));
-        wareElement.appendChild(preisElement);
-
-        for (String besonderheit : ware.getBesonderheiten()) {
-            Element besonderheitElement = doc.createElementNS("https://www.w3schools.com", prefix + "besonderheit");
-            besonderheitElement.appendChild(doc.createTextNode(besonderheit));
-            wareElement.appendChild(besonderheitElement);
-        }
-
-        for (String mangel : ware.getMaengel()) {
-            Element mangelElement = doc.createElementNS("https://www.w3schools.com", prefix + "mangel");
-            mangelElement.appendChild(doc.createTextNode(mangel));
-            wareElement.appendChild(mangelElement);
-        }
-
-        return wareElement;
-    }
-
     public static Element createRootElement(Document doc)
     {
         Element rootElement = doc.createElement("rootList");
         rootElement.setAttribute("xmlns:w3s", "https://www.w3schools.com");
         return rootElement;
+    }
+
+    public static String getChildElementValue(Element parent, String tagName)
+    {
+        NodeList nodeList = parent.getElementsByTagName(tagName);
+        if (nodeList.getLength() > 0) {
+            return nodeList.item(0).getTextContent();
+        }
+        return null;
     }
 
     public static String getPrefix() { return prefix; }

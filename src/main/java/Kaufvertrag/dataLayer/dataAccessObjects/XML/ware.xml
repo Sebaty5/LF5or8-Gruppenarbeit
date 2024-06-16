@@ -1,13 +1,10 @@
 <wareList xmlns:w3s="https://www.w3schools.com">
-  <!--1 or more repetitions:-->
   <w3s:ware>
     <w3s:id>10</w3s:id>
     <w3s:bezeichnung>string</w3s:bezeichnung>
     <w3s:beschreibung>string</w3s:beschreibung>
     <w3s:preis>1.051732E7</w3s:preis>
-    <!--Zero or more repetitions:-->
     <w3s:besonderheit>string</w3s:besonderheit>
-    <!--Zero or more repetitions:-->
     <w3s:mangel>string</w3s:mangel>
   </w3s:ware>
 </wareList>

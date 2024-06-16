@@ -5,29 +5,23 @@ import Kaufvertrag.businessInterfaces.IVertragspartner;
 
 public class Vertragspartner implements IVertragspartner {
 
-    private int ID;
+    private long id;
     private String ausweisNr;
     private String vorname;
     private String nachname;
     private IAdresse adresse;
-
 
     public Vertragspartner(String vorname, String nachname) {
         setVorname(vorname);
         setNachname(nachname);
     }
 
-    @Override
-    public int getID()
-    {
-        return ID;
-    }
 
     @Override
-    public void setID(int ID)
-    {
-        this.ID = ID;
-    }
+    public long getId() { return 0; }
+
+    @Override
+    public void setId(long n_id) { id = n_id; }
 
     @Override
     public String getAusweisNr() {
