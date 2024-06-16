@@ -39,7 +39,6 @@ public class WareDaoXML implements IDao<IWare, Long>
     public IWare create()
     {
         List<IWare> wareList = readAll();
-        // Hard coded default object
         IWare testWare = new Ware("testWare", "Eine tolle testWare", 10, new ArrayList<>(), new ArrayList<>());
         wareList.add(testWare);
         writeIWareListToXml(wareList);

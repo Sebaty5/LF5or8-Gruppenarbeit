@@ -5,7 +5,7 @@ import Kaufvertrag.businessInterfaces.IVertragspartner;
 
 public class Vertragspartner implements IVertragspartner {
 
-    private long id;
+    private String id;
     private String ausweisNr;
     private String vorname;
     private String nachname;
@@ -18,10 +18,10 @@ public class Vertragspartner implements IVertragspartner {
 
 
     @Override
-    public long getId() { return 0; }
+    public String getId() { return id; }
 
     @Override
-    public void setId(long n_id) { id = n_id; }
+    public void setId(String n_id) { id = n_id; }
 
     @Override
     public String getAusweisNr() {
@@ -65,8 +65,7 @@ public class Vertragspartner implements IVertragspartner {
 
     @Override
     public String toString() {
-        return
-                "\nVertragspartner" +
+        return "\nVertragspartner" +
                 "\nId: " + id +
                 "\nAusweisNr: " + ausweisNr +
                 "\nVorname: " + vorname +

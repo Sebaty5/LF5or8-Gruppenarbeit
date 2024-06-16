@@ -2,6 +2,7 @@ package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessInterfaces.IAdresse;
 import Kaufvertrag.businessInterfaces.IVertragspartner;
+import Kaufvertrag.businessInterfaces.IWare;
 import Kaufvertrag.dataLayer.businessClasses.Adresse;
 import Kaufvertrag.dataLayer.businessClasses.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
@@ -18,40 +19,49 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
 {
     private static final String VERTRAGSPARTNER_XML = "src/main/java/Kaufvertrag/dataLayer/dataAccessObjects/XML/vertragspartnerTest.xml"; // Adjust the path as needed
 
+    /*
     public static void main(String[] args)
     {
         Adresse testAdresse = new Adresse("testStraße", "123a", "2034a", "testOrt");
-        Vertragspartner testVertragspartner = new Vertragspartner("Max", "Muster");
+        Vertragspartner testVertragspartner = new Vertragspartner("Maxi", "Muster");
         testVertragspartner.setAdresse(testAdresse);
         testVertragspartner.setAusweisNr("12fefsq23");
-        testVertragspartner.setId(10);
+        testVertragspartner.setId(String.valueOf(10L));
 
         VertragspartnerDaoXML vertragspartnerDaoXML = new VertragspartnerDaoXML();
 
-        //vertragspartnerDaoXML.create();
+        vertragspartnerDaoXML.create();
         vertragspartnerDaoXML.create(testVertragspartner);
-        //vertragspartnerDaoXML.update(testVertragspartner);
-        //vertragspartnerDaoXML.delete(10L);
+        vertragspartnerDaoXML.update(testVertragspartner);
+        vertragspartnerDaoXML.delete(String.valueOf(10));
         System.out.println(vertragspartnerDaoXML.readAll());
-        //System.out.println(vertragspartnerDaoXML.read(10L));
+        System.out.println(vertragspartnerDaoXML.read(String.valueOf(10)));
     }
+     */
 
     @Override
     public IVertragspartner create()
     {
         List<IVertragspartner> vertragspartnerList = readAll();
-        // Hard coded default object
-        IVertragspartner testVertragspartner = new Vertragspartner("Max", "Muster");
+
+        Adresse testAdresse = new Adresse("testStraße", "123a", "2034a", "testOrt");
+        Vertragspartner testVertragspartner = new Vertragspartner("Max", "Muster");
+        testVertragspartner.setAdresse(testAdresse);
+        testVertragspartner.setAusweisNr("12fefsq23");
+        testVertragspartner.setId(String.valueOf(10L));
+
         vertragspartnerList.add(testVertragspartner);
         writeIWareListToXml(vertragspartnerList);
         return testVertragspartner;
     }
 
     @Override
-    public IVertragspartner create(IVertragspartner objectToInsert)
+    public IVertragspartner create(IVertragspartner vertragspartnerToInsert)
     {
-
-        return null; //TODO add return value
+        List<IVertragspartner> vertragspartnerList = readAll();
+        vertragspartnerList.add(vertragspartnerToInsert);
+        writeIWareListToXml(vertragspartnerList);
+        return vertragspartnerToInsert;
     }
 
     @Override
@@ -64,7 +74,6 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
     public List<IVertragspartner> readAll()
     {
         Document content = ServiceXML.read(VERTRAGSPARTNER_XML);
-
         if (content == null)
         {
             System.out.println("File is empty!");
@@ -72,15 +81,15 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         }
 
         List<IVertragspartner> vertragspartnerList = new ArrayList<>();
-        NodeList nodeList = content.getElementsByTagName("w3s:ware");
+        NodeList nodeList = content.getElementsByTagName("w3s:vertragspartner");
 
         for (int i = 0; i < nodeList.getLength(); i++)
         {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE)
             {
-                Element wareElement = (Element) node;
-                IVertragspartner vertragspartner = domElementToVertragspartner(wareElement);
+                Element vertragspartnerElement = (Element) node;
+                IVertragspartner vertragspartner = domElementToVertragspartner(vertragspartnerElement);
                 vertragspartnerList.add(vertragspartner);
             }
         }
@@ -88,13 +97,22 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
     }
 
     @Override
-    public void update(IVertragspartner objectToUpdate) {
-
+    public void update(IVertragspartner objectToUpdate)
+    {
+        List<IVertragspartner> vertragspartnerList = readAll();
+        if (vertragspartnerList.removeIf(vertragspartner -> Objects.equals(vertragspartner.getId(), objectToUpdate.getId())))
+        {
+            vertragspartnerList.add(objectToUpdate);
+        }
+        writeIWareListToXml(vertragspartnerList);
     }
 
     @Override
-    public void delete(String id) {
-
+    public void delete(String id)
+    {
+        List<IVertragspartner> vertragspartnerList = readAll();
+        vertragspartnerList.removeIf(vertragspartner -> Objects.equals(vertragspartner.getId(), id));
+        writeIWareListToXml(vertragspartnerList);
     }
 
     private IVertragspartner domElementToVertragspartner(Element vertragspartner)
@@ -116,7 +134,7 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         IVertragspartner newVertragspartner = new Vertragspartner(vorname, nachname);
         newVertragspartner.setAusweisNr(ausweisNr);
         newVertragspartner.setAdresse(adresse);
-        newVertragspartner.setId(id);
+        newVertragspartner.setId(String.valueOf(id));
 
         return newVertragspartner;
     }
@@ -143,14 +161,14 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         vertragspartnerElement.appendChild(idElement);
 
         Element ausweisNrElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "ausweisNr");
-        ausweisNrElement.appendChild(doc.createTextNode(String.valueOf(vertragspartner.getId())));
+        ausweisNrElement.appendChild(doc.createTextNode(String.valueOf(vertragspartner.getAusweisNr())));
         vertragspartnerElement.appendChild(ausweisNrElement);
 
-        Element vornameElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "bezeichnung");
+        Element vornameElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "vormame");
         vornameElement.appendChild(doc.createTextNode(vertragspartner.getVorname()));
         vertragspartnerElement.appendChild(vornameElement);
 
-        Element nachnameElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "beschreibung");
+        Element nachnameElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "nachname");
         nachnameElement.appendChild(doc.createTextNode(vertragspartner.getNachname()));
         vertragspartnerElement.appendChild(nachnameElement);
 
