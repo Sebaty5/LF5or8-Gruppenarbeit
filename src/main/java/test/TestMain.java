@@ -28,7 +28,7 @@ public class TestMain {
         IDao<IVertragspartner, String> dv = dl.getDaoVertragspartner();
         IDao<IWare, Long> dw = dl.getDaoWare();
         try {
-            IVertragspartner v = dv.read(Integer.toString(dv.create().getID()));
+            IVertragspartner v = dv.read(Long.toString(dv.create().getId()));
             System.out.println(v.toString());
         }
         catch (DaoException e) {

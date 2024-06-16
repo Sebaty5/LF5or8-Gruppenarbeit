@@ -113,7 +113,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         String hausNr = objectToUpdate.getAdresse().getHausNr();
         String plz = objectToUpdate.getAdresse().getPlz();
         String ort = objectToUpdate.getAdresse().getOrt();
-        int id = objectToUpdate.getID();
+        long id = objectToUpdate.getId();
         String sqlString = "REPLACE INTO " + tableName + " (ID, AusweisNr, Vorname, Nachname, Strasse, HausNr, Plz, Ort) VALUES(?,?,?,?,?,?,?,?)";
         ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Long.toString(id), ausweisNr, vorname, nachname, strasse, hausNr, plz, ort});
     }
