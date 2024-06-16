@@ -9,8 +9,8 @@ public class TestMain {
     private static DataLayerManager dlm = DataLayerManager.getInstance();
 
     public static void main(String[] args) {
-        testSQLite();
         testXML();
+        //testSQLite();
     }
 
     private static void testSQLite() {
@@ -28,8 +28,7 @@ public class TestMain {
         IDao<IVertragspartner, String> dv = dl.getDaoVertragspartner();
         IDao<IWare, Long> dw = dl.getDaoWare();
         try {
-            IVertragspartner v = dv.read(Long.toString(dv.create().getId()));
-            System.out.println(v.toString());
+            IVertragspartner v = dv.read(dv.create().getId());
         }
         catch (DaoException e) {
             e.printStackTrace();

@@ -48,7 +48,7 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         Vertragspartner testVertragspartner = new Vertragspartner("Max", "Muster");
         testVertragspartner.setAdresse(testAdresse);
         testVertragspartner.setAusweisNr("12fefsq23");
-        testVertragspartner.setId(String.valueOf(10L));
+        testVertragspartner.setId(String.valueOf(10));
 
         vertragspartnerList.add(testVertragspartner);
         writeIWareListToXml(vertragspartnerList);
@@ -67,6 +67,15 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
     @Override
     public IVertragspartner read(String id)
     {
+        List<IVertragspartner> vertragspartnerList = readAll();
+        for(IVertragspartner vertragspartner : vertragspartnerList)
+        {
+            if(Objects.equals(vertragspartner.getId(), id))
+            {
+                return vertragspartner;
+            }
+        }
+        System.out.println("Ware with the id " + id + " not found!");
         return null;
     }
 
