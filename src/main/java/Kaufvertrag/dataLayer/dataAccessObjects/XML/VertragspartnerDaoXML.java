@@ -48,7 +48,7 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         Vertragspartner testVertragspartner = new Vertragspartner("Max", "Muster");
         testVertragspartner.setAdresse(testAdresse);
         testVertragspartner.setAusweisNr("12fefsq23");
-        testVertragspartner.setId(String.valueOf(10));
+        testVertragspartner.setId(getValidId(vertragspartnerList));
 
         vertragspartnerList.add(testVertragspartner);
         writeIWareListToXml(vertragspartnerList);
@@ -59,6 +59,7 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
     public IVertragspartner create(IVertragspartner vertragspartnerToInsert)
     {
         List<IVertragspartner> vertragspartnerList = readAll();
+        vertragspartnerToInsert.setId(getValidId(vertragspartnerList));
         vertragspartnerList.add(vertragspartnerToInsert);
         writeIWareListToXml(vertragspartnerList);
         return vertragspartnerToInsert;
@@ -126,7 +127,7 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
 
     private IVertragspartner domElementToVertragspartner(Element vertragspartner)
     {
-        long id = Long.parseLong(Objects.requireNonNull(ServiceXML.getChildElementValue(vertragspartner, ServiceXML.getPrefix() + "id")));
+        String id = Objects.requireNonNull(ServiceXML.getChildElementValue(vertragspartner, ServiceXML.getPrefix() + "id"));
         String ausweisNr = ServiceXML.getChildElementValue(vertragspartner, ServiceXML.getPrefix() + "ausweisNr");
         String vorname = ServiceXML.getChildElementValue(vertragspartner, ServiceXML.getPrefix() + "vorname");
         String nachname = ServiceXML.getChildElementValue(vertragspartner, ServiceXML.getPrefix() + "nachname");
@@ -202,6 +203,24 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         vertragspartnerElement.appendChild(adresseElement);
 
         return vertragspartnerElement;
+    }
+
+    private String getValidId(List<IVertragspartner> vertragspartnerList)
+    {
+        long highestId = 0;
+        long currentId = 0;
+        for(IVertragspartner vertragspartner : vertragspartnerList)
+        {
+            if(Long.getLong(vertragspartner.getId()) != null)
+            {
+                currentId = Long.getLong(vertragspartner.getId());
+            }
+            if (currentId > highestId)
+            {
+                highestId = currentId;
+            }
+        }
+        return String.valueOf(currentId + 1);
     }
 
 }

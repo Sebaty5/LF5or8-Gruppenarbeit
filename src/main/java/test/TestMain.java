@@ -15,8 +15,8 @@ public class TestMain {
     private static DataLayerManager dlm = DataLayerManager.getInstance();
 
     public static void main(String[] args) {
-        //testXML();
-        testSQLite();
+        testXML();
+        //testSQLite();
     }
 
     private static void testSQLite() {
