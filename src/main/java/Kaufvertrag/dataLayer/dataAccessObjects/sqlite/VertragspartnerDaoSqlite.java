@@ -4,6 +4,7 @@ import Kaufvertrag.businessInterfaces.IAdresse;
 import Kaufvertrag.businessInterfaces.IVertragspartner;
 import Kaufvertrag.dataLayer.businessClasses.Adresse;
 import Kaufvertrag.dataLayer.businessClasses.Vertragspartner;
+import Kaufvertrag.dataLayer.dataAccessObjects.DaoException;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.database.FieldType;
 import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.database.Table;
@@ -73,9 +74,12 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     }
 
     @Override
-    public IVertragspartner read(String id) {
+    public IVertragspartner read(String id) throws DaoException {
         String sql = "SELECT * FROM " + tableName + " WHERE ID = ?";
         List<Map<String, String>> resultList = ConnectionManager.INSTANCE.executeQuerySQL(sql, new String[]{id});
+        if (resultList.size() <= 0){
+            throw new DaoException("Tried to read contract partner with unknown ID.");
+        }
         IVertragspartner vertragspartner = new Vertragspartner(resultList.get(0).get("Vorname"), resultList.get(0).get("Nachname"));
         vertragspartner.setAusweisNr(resultList.get(0).get("AusweisNr"));
         IAdresse adresse = new Adresse(resultList.get(0).get("Strasse"), resultList.get(0).get("HausNr"), resultList.get(0).get("Plz"), resultList.get(0).get("Ort"));
@@ -110,6 +114,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         String plz = objectToUpdate.getAdresse().getPlz();
         String ort = objectToUpdate.getAdresse().getOrt();
         int id = objectToUpdate.getID();
+
         String sqlString = "REPLACE INTO " + tableName + " (ID, AusweisNr, Vorname, Nachname, Strasse, HausNr, Plz, Ort) VALUES(?,?,?,?,?,?,?,?)";
         ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Integer.toString(id), ausweisNr, vorname, nachname, strasse, hausNr, plz, ort});
     }
