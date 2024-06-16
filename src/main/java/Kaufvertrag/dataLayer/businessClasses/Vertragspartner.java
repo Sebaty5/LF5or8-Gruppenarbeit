@@ -65,7 +65,9 @@ public class Vertragspartner implements IVertragspartner {
 
     @Override
     public String toString() {
-        return "\nVertragspartner" +
+        return
+                "\nVertragspartner" +
+                "\nId: " + id +
                 "\nAusweisNr: " + ausweisNr +
                 "\nVorname: " + vorname +
                 "\nNachname: " + nachname +
