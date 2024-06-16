@@ -9,7 +9,6 @@ public class Adresse implements IAdresse {
     private String plz;
     private String ort;
 
-
     public Adresse(String strasse, String hausNr, String plz, String ort) {
         this.strasse = strasse;
         this.hausNr = hausNr;

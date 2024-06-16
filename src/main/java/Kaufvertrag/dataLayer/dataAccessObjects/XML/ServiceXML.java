@@ -3,10 +3,7 @@ package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -18,80 +15,50 @@ import java.io.IOException;
 
 public class ServiceXML
 {
+    private static final String prefix = "w3s:";
+
     public static Document read(String path)
     {
-        Document doc = null;
+        File xmlFile = new File(path);
         try
         {
-            File xmlFile = new File(path);
+            Document doc;
             if (!xmlFile.exists())
             {
-                System.out.println("The file " + path + " does not exist.");
-                return null;
+                doc = setupAndReturnDBuilder().newDocument();
             }
-
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            dbFactory.setNamespaceAware(true);
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            doc = dBuilder.parse(xmlFile);
-            doc.getDocumentElement().normalize();
+            else
+            {
+                doc = setupAndReturnDBuilder().parse(xmlFile);
+                doc.getDocumentElement().normalize();
+            }
             //printDocument(doc);
+            return doc;
         }
-        catch (ParserConfigurationException | SAXException | IOException e)
+        catch (SAXException | IOException e)
         {
             System.out.println(e.getMessage());
         }
-        return doc;
+        return null;
     }
 
-    public static void write(Element domElementToWrite, String path)
+    public static void write(Document doc, String path)
     {
+        Transformer transformer = createTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File(path));
         try
         {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            dbFactory.setNamespaceAware(true);
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.newDocument();
-
-            File xmlFile = new File(path);
-
-            if (!xmlFile.exists())
-            {
-                boolean isFileCreated = xmlFile.createNewFile();
-                if (!isFileCreated)
-                {
-                    throw new IOException("Failed to create new file: " + path);
-                }
-            }
-
-            doc.appendChild(domElementToWrite);
-
-            // Write the content into an XML file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(path));
-
             transformer.transform(source, result);
-
-            // Output to console for testing
-            StreamResult consoleResult = new StreamResult(System.out);
-            transformer.transform(source, consoleResult);
         }
-        catch (ParserConfigurationException | TransformerException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        catch (IOException e)
+        catch (TransformerException e)
         {
             throw new RuntimeException(e);
         }
     }
 
     // For testing purposes only
-    private static void printDocument(Document doc) throws TransformerException
+    public static void printDocument(Document doc) throws TransformerException
     {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer();
@@ -102,4 +69,52 @@ public class ServiceXML
         transformer.transform(source, console);
     }
 
+    public static DocumentBuilder setupAndReturnDBuilder()
+    {
+        try
+        {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setNamespaceAware(true);
+            return dbFactory.newDocumentBuilder();
+        }
+        catch (ParserConfigurationException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Transformer createTransformer()
+    {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer;
+        try
+        {
+            transformer = transformerFactory.newTransformer();
+        }
+        catch (TransformerConfigurationException e)
+        {
+            throw new RuntimeException(e);
+        }
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        return transformer;
+    }
+
+    public static Element createRootElement(Document doc)
+    {
+        Element rootElement = doc.createElement("rootList");
+        rootElement.setAttribute("xmlns:w3s", "https://www.w3schools.com");
+        return rootElement;
+    }
+
+    public static String getChildElementValue(Element parent, String tagName)
+    {
+        NodeList nodeList = parent.getElementsByTagName(tagName);
+        if (nodeList.getLength() > 0) {
+            return nodeList.item(0).getTextContent();
+        }
+        return null;
+    }
+
+    public static String getPrefix() { return prefix; }
 }
