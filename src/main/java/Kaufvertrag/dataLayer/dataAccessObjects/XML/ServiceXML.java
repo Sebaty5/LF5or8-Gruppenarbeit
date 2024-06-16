@@ -57,18 +57,6 @@ public class ServiceXML
         }
     }
 
-    // For testing purposes only
-    public static void printDocument(Document doc) throws TransformerException
-    {
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        DOMSource source = new DOMSource(doc);
-        StreamResult console = new StreamResult(System.out);
-        transformer.transform(source, console);
-    }
-
     public static DocumentBuilder setupAndReturnDBuilder()
     {
         try
@@ -114,6 +102,18 @@ public class ServiceXML
             return nodeList.item(0).getTextContent();
         }
         return null;
+    }
+
+    // For testing purposes only
+    public static void printDocument(Document doc) throws TransformerException
+    {
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        DOMSource source = new DOMSource(doc);
+        StreamResult console = new StreamResult(System.out);
+        transformer.transform(source, console);
     }
 
     public static String getPrefix() { return prefix; }
