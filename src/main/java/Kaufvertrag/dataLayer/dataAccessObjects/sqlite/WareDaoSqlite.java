@@ -2,6 +2,7 @@ package Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
 import Kaufvertrag.businessInterfaces.IWare;
 import Kaufvertrag.dataLayer.businessClasses.Ware;
+import Kaufvertrag.dataLayer.dataAccessObjects.DaoException;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.database.FieldType;
 import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.database.Table;
@@ -66,10 +67,12 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     }
 
     @Override
-    public IWare read(Long id) {
+    public IWare read(Long id) throws DaoException {
         String sql = "SELECT * FROM " + tableName + " WHERE ID = ?";
         List<Map<String, String>> resultList = ConnectionManager.INSTANCE.executeQuerySQL(sql, new String[]{String.valueOf(id)});
-
+        if (resultList.size() <= 0){
+            throw new DaoException("Tried to read Ware with unknown ID.");
+        }
         IWare ware = new Ware(resultList.get(0).get("Bezeichnung"), resultList.get(0).get("Beschreibung"), parseDouble(resultList.get(0).get("Preis")), stringToList(resultList.get(0).get("Besonderheiten")), stringToList(resultList.get(0).get("Maengel")));
         ware.setId(parseInt(resultList.get(0).get("ID")));
         return ware;

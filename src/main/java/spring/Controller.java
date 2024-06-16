@@ -2,6 +2,7 @@ package spring;
 
 import Kaufvertrag.businessInterfaces.IVertragspartner;
 import Kaufvertrag.dataLayer.businessClasses.Vertragspartner;
+import Kaufvertrag.dataLayer.dataAccessObjects.DaoException;
 import Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class Controller {
 
 
     @GetMapping("/getVertragspartner/{id}")
-    ResponseEntity<IVertragspartner> getVertragspartner(@PathVariable Integer id) {
+    ResponseEntity<IVertragspartner> getVertragspartner(@PathVariable Integer id) throws DaoException {
         return ResponseEntity.ok(datalayer.getDaoVertragspartner().read(String.valueOf(id)));
 
     }
