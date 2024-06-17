@@ -19,7 +19,6 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
 {
     private static final String VERTRAGSPARTNER_XML = "./XML/vertragspartnerTest.xml"; // Adjust the path as needed
 
-    /*
     public static void main(String[] args)
     {
         Adresse testAdresse = new Adresse("testStraße", "123a", "2034a", "testOrt");
@@ -30,14 +29,13 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
 
         VertragspartnerDaoXML vertragspartnerDaoXML = new VertragspartnerDaoXML();
 
-        vertragspartnerDaoXML.create();
-        vertragspartnerDaoXML.create(testVertragspartner);
-        vertragspartnerDaoXML.update(testVertragspartner);
-        vertragspartnerDaoXML.delete(String.valueOf(10));
-        System.out.println(vertragspartnerDaoXML.readAll());
-        System.out.println(vertragspartnerDaoXML.read(String.valueOf(10)));
+        //vertragspartnerDaoXML.create();
+        //vertragspartnerDaoXML.create(testVertragspartner);
+        //vertragspartnerDaoXML.update(testVertragspartner);
+        //vertragspartnerDaoXML.delete(String.valueOf(10));
+        //System.out.println(vertragspartnerDaoXML.readAll());
+        //System.out.println(vertragspartnerDaoXML.read(String.valueOf(10)));
     }
-     */
 
     @Override
     public IVertragspartner create()
@@ -211,9 +209,10 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         long currentId = 0;
         for(IVertragspartner vertragspartner : vertragspartnerList)
         {
-            if(Long.getLong(vertragspartner.getId()) != null)
+            currentId = Long.parseLong(vertragspartner.getId());
+            if(currentId == 0)
             {
-                currentId = Long.getLong(vertragspartner.getId());
+                System.out.println("Id is 0!");
             }
             if (currentId > highestId)
             {

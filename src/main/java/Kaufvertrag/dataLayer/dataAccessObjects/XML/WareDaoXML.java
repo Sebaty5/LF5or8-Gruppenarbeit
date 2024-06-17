@@ -23,7 +23,6 @@ public class WareDaoXML implements IDao<IWare, Long>
         List<String> maengel = List.of("ist aber auch kaputt");
 
         Ware test = new Ware("test2", "test2", 20, besonderheiten, maengel);
-        test.setId(10);
         WareDaoXML wareDaoXML = new WareDaoXML();
 
         //wareDaoXML.create();
@@ -40,6 +39,7 @@ public class WareDaoXML implements IDao<IWare, Long>
     {
         List<IWare> wareList = readAll();
         IWare testWare = new Ware("testWare", "Eine tolle testWare", 10, new ArrayList<>(), new ArrayList<>());
+        testWare.setId(getValidId(wareList));
         wareList.add(testWare);
         writeIWareListToXml(wareList);
         return testWare;
@@ -49,6 +49,7 @@ public class WareDaoXML implements IDao<IWare, Long>
     public IWare create(IWare objectToInsert)
     {
         List<IWare> wareList = readAll();
+        objectToInsert.setId(getValidId(wareList));
         wareList.add(objectToInsert);
         writeIWareListToXml(wareList);
         return objectToInsert;
@@ -186,5 +187,24 @@ public class WareDaoXML implements IDao<IWare, Long>
         }
 
         return wareElement;
+    }
+
+    private long getValidId(List<IWare> vertragspartnerList)
+    {
+        long highestId = 0;
+        long currentId = 0;
+        for(IWare ware : vertragspartnerList)
+        {
+            currentId = ware.getId();
+            if(currentId == 0)
+            {
+                System.out.println("Id is 0!");
+            }
+            if (currentId > highestId)
+            {
+                highestId = currentId;
+            }
+        }
+        return currentId + 1;
     }
 }

@@ -32,7 +32,6 @@ public class ServiceXML
                 doc = setupAndReturnDBuilder().parse(xmlFile);
                 doc.getDocumentElement().normalize();
             }
-            //printDocument(doc);
             return doc;
         }
         catch (SAXException | IOException e)
@@ -107,10 +106,7 @@ public class ServiceXML
     // For testing purposes only
     public static void printDocument(Document doc) throws TransformerException
     {
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        Transformer transformer = createTransformer();
         DOMSource source = new DOMSource(doc);
         StreamResult console = new StreamResult(System.out);
         transformer.transform(source, console);
