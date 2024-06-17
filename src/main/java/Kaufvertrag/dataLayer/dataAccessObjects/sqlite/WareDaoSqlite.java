@@ -41,7 +41,8 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
 
         IWare ware = new Ware(bezeichnung, beschreibung, preis, besonderheiten, maengel);
         String getIDSql = "SELECT ID FROM " + tableName + " ORDER BY ID DESC LIMIT 1;";
-        long id = parseLong(ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{}).get(0).get("ID")) + 1;
+        List<Map<String,String>> list = ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{});
+        long id = list.isEmpty() ? 0 : parseInt(list.get(0).get("ID")) + 1;
         ware.setId(id);
 
         String sqlString = "REPLACE INTO " + tableName + " (ID, Bezeichnung, Beschreibung, Preis, Besonderheiten, Maengel) VALUES(?,?,?,?,?,?)";
@@ -58,7 +59,8 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
         List<String> maengel = objectToInsert.getMaengel();
 
         String getIDSql = "SELECT ID FROM " + tableName + " ORDER BY ID DESC LIMIT 1;";
-        int id = parseInt(ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{}).get(0).get("ID")) + 1;
+        List<Map<String,String>> list = ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{});
+        long id = list.isEmpty() ? 0 : parseInt(list.get(0).get("ID")) + 1;
         objectToInsert.setId(id);
         String sqlString = "REPLACE INTO " + tableName + " (ID, Bezeichnung, Beschreibung, Preis, Besonderheiten, Maengel) VALUES(?,?,?,?,?,?)";
         ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Long.toString(id), bezeichnung, beschreibung, Double.toString(preis), listToString(besonderheiten), listToString(maengel)});

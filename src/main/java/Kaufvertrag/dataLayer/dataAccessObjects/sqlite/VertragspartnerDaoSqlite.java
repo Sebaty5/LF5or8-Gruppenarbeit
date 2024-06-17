@@ -46,7 +46,8 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         vertragspartner.setAdresse(new Adresse(strasse, hausNr, plz, ort));
         vertragspartner.setAusweisNr(ausweisNr);
         String getIDSql = "SELECT ID FROM " + tableName + " ORDER BY ID DESC LIMIT 1;";
-        int id = parseInt(ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{}).get(0).get("ID")) + 1;
+        List<Map<String,String>> list = ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{});
+        int id = list.isEmpty() ? 0 : parseInt(list.get(0).get("ID")) + 1;
         vertragspartner.setId(String.valueOf(id));
         String sqlString = "REPLACE INTO " + tableName + " (ID, AusweisNr, Vorname, Nachname, Strasse, HausNr, Plz, Ort) VALUES(?,?,?,?,?,?,?,?)";
         ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Integer.toString(id), ausweisNr, vorname, nachname, strasse, hausNr, plz, ort});
@@ -65,7 +66,8 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         String ort = objectToInsert.getAdresse().getOrt();
 
         String getIDSql = "SELECT ID FROM " + tableName + " ORDER BY ID DESC LIMIT 1;";
-        int id = parseInt(ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{}).get(0).get("ID")) + 1;
+        List<Map<String,String>> list = ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{});
+        int id = list.isEmpty() ? 0 : parseInt(list.get(0).get("ID")) + 1;
         objectToInsert.setId(String.valueOf(id));
         String sqlString = "REPLACE INTO " + tableName + " (ID, AusweisNr, Vorname, Nachname, Strasse, HausNr, Plz, Ort) VALUES(?,?,?,?,?,?,?,?)";
         ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{Integer.toString(id), ausweisNr, vorname, nachname, strasse, hausNr, plz, ort});
