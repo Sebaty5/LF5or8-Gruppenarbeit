@@ -10,13 +10,14 @@ import Kaufvertrag.dataLayer.dataAccessObjects.*;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class TestMain {
 
-    private static DataLayerManager dlm = DataLayerManager.getInstance();
+    private static final DataLayerManager dlm = DataLayerManager.getInstance();
 
     public static void main(String[] args) {
         testXML();
-        //testSQLite();
+        testSQLite();
     }
 
     private static void testSQLite() {
