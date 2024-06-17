@@ -11,6 +11,13 @@ public class Kaufvertrag implements IKaufvertrag {
     private IWare ware;
     private String zahlungsmodalitaet;
 
+
+    public Kaufvertrag(IVertragspartner kaeufer, IVertragspartner verkaeufer, IWare ware) {
+        setKauefer(kaeufer);
+        setVerkauefer(verkaeufer);
+        setWare(ware);
+    }
+
     @Override
     public IVertragspartner getVerkauefer() { return verkauefer; }
     @Override
@@ -31,16 +38,12 @@ public class Kaufvertrag implements IKaufvertrag {
     @Override
     public void setZahlungsmodalitaeten(String n_zahlungsmodalitaeten) { zahlungsmodalitaet = n_zahlungsmodalitaeten; }
 
-    public Kaufvertrag(IVertragspartner kaeufer, IVertragspartner verkaeufer, IWare ware) {
-        setKauefer(kaeufer);
-        setVerkauefer(verkaeufer);
-        setWare(ware);
-    }
-
     @Override
-    public String toString()
-    {
-        //TODO Add useful toString
-        return super.toString();
+    public String toString() {
+        return "\nKaufvertrag:" +
+                "\n" + verkauefer +
+                "\n" + kauefer +
+                "\n" + ware +
+                "\nZahlungsmodalität: " + zahlungsmodalitaet;
     }
 }

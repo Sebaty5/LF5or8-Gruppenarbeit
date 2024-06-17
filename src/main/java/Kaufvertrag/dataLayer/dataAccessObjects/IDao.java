@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface IDao <T,K>{
     T create();
-    void create(T objectToInsert);
-    T read(K id);
-    List<T> read();
+    T create(T objectToInsert);
+    T read(K id) throws DaoException;
+    List<T> readAll();
     void update(T objectToUpdate);
     void delete(K id);
 }

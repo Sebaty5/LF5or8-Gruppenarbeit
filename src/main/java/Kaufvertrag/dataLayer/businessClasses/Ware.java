@@ -10,12 +10,21 @@ public class Ware implements IWare {
     private String bezeichnung;
     private String beschreibung;
     private double preis;
-    private List<String> besonderheiten;
-    private List<String> maengel;
+    private final List<String> besonderheiten;
+    private final List<String> maengel;
 
+    public Ware(String n_bezeichnung, String n_beschreibung, double n_preis, List<String> n_besonderheiten, List<String> n_maengel)
+    {
+        setBezeichnung(n_bezeichnung);
+        setBeschreibung(n_beschreibung);
+        setPreis(n_preis);
+        besonderheiten = n_besonderheiten;
+        maengel = n_maengel;
+    }
 
     @Override
     public long getId() { return id; }
+    public void setId(long id) { this.id = id; } // Brauchen wir den?
 
     @Override
     public String getBezeichnung() { return bezeichnung; }
@@ -38,28 +47,15 @@ public class Ware implements IWare {
     @Override
     public List<String> getMaengel() { return maengel; }
 
-    public Ware(String bezeichnung, double preis)
-    {
-        setBezeichnung(bezeichnung);
-        setPreis(preis);
-    }
-
-    public void setId(long id)
-    {
-        this.id = id;
-    }
-
     @Override
-    public String toString()
-    {
-        return "Ware{" +
-                "id=" + id +
-                ", bezeichnung='" + bezeichnung + '\'' +
-                ", beschreibung='" + beschreibung + '\'' +
-                ", preis=" + preis +
-                ", besonderheiten=" + besonderheiten +
-                ", maengel=" + maengel +
-                '}';
+    public String toString() {
+        return "\nWare" +
+                "\nId: " + id +
+                "\nBezeichnung: " + bezeichnung +
+                "\nBeschreibung: " + beschreibung +
+                "\nPreis: " + preis +
+                "\nBesonderheiten: " + besonderheiten +
+                "\nMängel: " + maengel;
     }
 }
 

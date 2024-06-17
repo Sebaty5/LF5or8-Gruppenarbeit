@@ -36,3 +36,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/database/database.db
+/XML/wareTest.xml
+/XML/vertragspartnerTest.xml

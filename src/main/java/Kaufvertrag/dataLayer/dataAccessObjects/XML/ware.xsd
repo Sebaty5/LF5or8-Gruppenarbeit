@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://www.w3schools.com"
+           elementFormDefault="qualified">
+
+    <xs:element name="wareList">
+        <xs:complexType>
+            <xs:sequence>
+
+                <xs:element name="ware" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="id" type="xs:long"/>
+                            <xs:element name="bezeichnung" type="xs:string"/>
+                            <xs:element name="beschreibung" type="xs:string"/>
+                            <xs:element name="preis" type="xs:double"/>
+                            <xs:element name="besonderheit" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                            <xs:element name="mangel" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

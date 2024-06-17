@@ -2,24 +2,77 @@
 <head>
     <title>Gruppenarbeit - Vertragspartner</title>
     <link rel="stylesheet" href="../styles/style.css">
-    <script src="../scripts/script.js"></script>
+    <script src="../script.js">
+    </script>
 </head>
 <body>
-    <div id="content">
-        <div id="heading">
-            <h1>Gruppenarbeit - Vertragspartner</h1>
-            <div class="dropdown">
-                <button class="dropbtn">Links</button>
-                <div class="dropdown-content">
-                    <a href="index.html">Startseite</a>
-                    <a href="ware.html">Ware</a>
-                    <a href="vertragspartner.html">Vertragspartner</a>
-                </div>
+<div id="content">
+    <div id="heading">
+        <h1>Gruppenarbeit - Vertragspartner</h1>
+        <div class="dropdown">
+            <button class="dropbtn">Links</button>
+            <div class="dropdown-content">
+                <a href="index.html">Startseite</a>
+                <a href="ware.html">Ware</a>
+                <a href="vertragspartner.html">Vertragspartner</a>
             </div>
         </div>
-        <div id="main">
-
-        </div>
     </div>
+    <div id="main">
+        <table>
+            <tr>
+                <td id="functions">
+                    <p>Fuctions with ID:</p>
+                    <input id="idInputField" type="text" value="" class="stylishStyle"> <p />
+                    <input  type="button" value="get Vertragspartner with this ID" onclick="getById()" class="stylishStyle">
+                    <input type="button" value="get all Vertragspartners" onclick="getAll()" class="stylishStyle">
+                    <input type="button" value="delete Vertragspartner with this ID" class="stylishStyle">
+                    <input type="button" value="placeholder" class="stylishStyle">
+                </td>
+                <td class="space-between">
+
+                </td>
+                <td id="create">
+                    <p>Create:</p>
+                    <span>AusweisNr:</span>
+
+                    <input type="text" value="" class="stylishStyle" id="ausweisnr">
+                    <span>Vorname:</span>
+                    <input type="text" value="" class="stylishStyle" id="vorname">
+                    <span>Nachname</span>
+                    <input type="text" value="" class="stylishStyle" id="nachname">
+                    <span>Strasse</span>
+                    <input type="text" value="" class="stylishStyle" id="strasse">
+                </td>
+                <td id="create2">
+                    <span>HausNr</span>
+                    <input type="number" value="" class="stylishStyle" id="hausnr">
+                    <span>PLZ</span>
+                    <input type="text" value="" class="stylishStyle" id="plz">
+                    <span>Ort</span>
+                    <input type="text" value="" class="stylishStyle" id="ort">
+                    <input type="button" value="Create" class="stylishStyle" onclick="create()">
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+        <table style="border: solid; width: 100%; height: 50%;">
+            <tr>
+                <td>
+                    Result:
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p id="result">result... (edit with JS)</p>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
 </body>
 </html>
