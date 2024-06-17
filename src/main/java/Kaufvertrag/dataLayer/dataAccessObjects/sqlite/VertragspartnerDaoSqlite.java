@@ -60,10 +60,16 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         String vorname = objectToInsert.getVorname();
         String nachname = objectToInsert.getNachname();
         String ausweisNr = objectToInsert.getAusweisNr();
-        String strasse = objectToInsert.getAdresse().getStrasse();
-        String hausNr = objectToInsert.getAdresse().getHausNr();
-        String plz = objectToInsert.getAdresse().getPlz();
-        String ort = objectToInsert.getAdresse().getOrt();
+        String strasse = "";
+        String hausNr = "";
+        String plz = "";
+        String ort = "";
+        if (objectToInsert.getAdresse() != null) {
+            strasse = objectToInsert.getAdresse().getStrasse();
+            hausNr = objectToInsert.getAdresse().getHausNr();
+            plz = objectToInsert.getAdresse().getPlz();
+            ort = objectToInsert.getAdresse().getOrt();
+        }
 
         String getIDSql = "SELECT ID FROM " + tableName + " ORDER BY ID DESC LIMIT 1;";
         List<Map<String,String>> list = ConnectionManager.INSTANCE.executeQuerySQL(getIDSql, new String[]{});
@@ -111,10 +117,16 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         String vorname = objectToUpdate.getVorname();
         String nachname = objectToUpdate.getNachname();
         String ausweisNr = objectToUpdate.getAusweisNr();
-        String strasse = objectToUpdate.getAdresse().getStrasse();
-        String hausNr = objectToUpdate.getAdresse().getHausNr();
-        String plz = objectToUpdate.getAdresse().getPlz();
-        String ort = objectToUpdate.getAdresse().getOrt();
+        String strasse = "";
+        String hausNr = "";
+        String plz = "";
+        String ort = "";
+        if (objectToUpdate.getAdresse() != null) {
+            strasse = objectToUpdate.getAdresse().getStrasse();
+            hausNr = objectToUpdate.getAdresse().getHausNr();
+            plz = objectToUpdate.getAdresse().getPlz();
+            ort = objectToUpdate.getAdresse().getOrt();
+        }
         String id = objectToUpdate.getId();
         String sqlString = "REPLACE INTO " + tableName + " (ID, AusweisNr, Vorname, Nachname, Strasse, HausNr, Plz, Ort) VALUES(?,?,?,?,?,?,?,?)";
         ConnectionManager.INSTANCE.executeSQL(sqlString, new String[]{id, ausweisNr, vorname, nachname, strasse, hausNr, plz, ort});
