@@ -12,11 +12,11 @@ import java.util.List;
 
 public class TestMain {
 
-    private static DataLayerManager dlm = DataLayerManager.getInstance();
+    private static final DataLayerManager dlm = DataLayerManager.getInstance();
 
     public static void main(String[] args) {
         testXML();
-        //testSQLite();
+        testSQLite();
     }
 
     private static void testSQLite() {
@@ -123,18 +123,7 @@ public class TestMain {
 
     private static void testUpdate(IDataLayer dl) {
         String idPartner = "1";
-        String vorname = "Der Neue";
-        String nachname = "Typ";
-        String ausweisNr = "1";
-        String strasse = "Frisch Errichtet Straße";
-        String hausNr = "1";
-        String plz = "1";
-        String ort = "Aus dem Nichts erschienen";
-
-        IVertragspartner vertragspartner = new Vertragspartner(vorname, nachname);
-        vertragspartner.setAdresse(new Adresse(strasse, hausNr, plz, ort));
-        vertragspartner.setAusweisNr(ausweisNr);
-        vertragspartner.setId(idPartner);
+        IVertragspartner vertragspartner = getiVertragspartner(idPartner);
 
         IDao<IVertragspartner, String> dv = dl.getDaoVertragspartner();
 
@@ -169,6 +158,22 @@ public class TestMain {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
+    }
+
+    private static IVertragspartner getiVertragspartner(String idPartner) {
+        String vorname = "Der Neue";
+        String nachname = "Typ";
+        String ausweisNr = "1";
+        String strasse = "Frisch Errichtet Straße";
+        String hausNr = "1";
+        String plz = "1";
+        String ort = "Aus dem Nichts erschienen";
+
+        IVertragspartner vertragspartner = new Vertragspartner(vorname, nachname);
+        vertragspartner.setAdresse(new Adresse(strasse, hausNr, plz, ort));
+        vertragspartner.setAusweisNr(ausweisNr);
+        vertragspartner.setId(idPartner);
+        return vertragspartner;
     }
 
     private static void testDelete(IDataLayer dl) {

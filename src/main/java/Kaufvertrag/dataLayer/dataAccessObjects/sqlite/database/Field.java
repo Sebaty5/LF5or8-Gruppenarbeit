@@ -1,10 +1,10 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.sqlite.database;
 
 public class Field {
-    private String name;
-    private FieldType type;
-    private Boolean isPrimary;
-    private Boolean isNotNull;
+    private final String name;
+    private final FieldType type;
+    private final Boolean isPrimary;
+    private final Boolean isNotNull;
 
     public Field(String name, FieldType type, Boolean isPrimary, Boolean isNotNull) {
         this.name = name;

@@ -110,14 +110,5 @@ public class ServiceXML
         return null;
     }
 
-    // For testing purposes only
-    public static void printDocument(Document doc) throws TransformerException
-    {
-        Transformer transformer = createTransformer();
-        DOMSource source = new DOMSource(doc);
-        StreamResult console = new StreamResult(System.out);
-        transformer.transform(source, console);
-    }
-
     public static String getPrefix() { return prefix; }
 }

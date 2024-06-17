@@ -3,8 +3,8 @@ package Kaufvertrag.dataLayer.dataAccessObjects.sqlite.database;
 import java.util.ArrayList;
 
 public class Table {
-    private String tableName;
-    private ArrayList<Field> fields;
+    private final String tableName;
+    private final ArrayList<Field> fields;
     private Table(Builder tableBuilder) {
         this.tableName = tableBuilder.tableName;
         this.fields = tableBuilder.fields;

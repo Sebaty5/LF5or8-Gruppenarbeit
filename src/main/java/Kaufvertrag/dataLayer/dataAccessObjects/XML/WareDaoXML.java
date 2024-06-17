@@ -16,24 +16,6 @@ public class WareDaoXML implements IDao<IWare, Long>
 {
     private static final String WARE_XML = "./XML/wareTest.xml"; // Adjust the path as needed
 
-    /*
-    public static void main(String[] args)
-    {
-        List<String> besonderheiten = List.of("Ist toll");
-        List<String> maengel = List.of("ist aber auch kaputt");
-
-        Ware test = new Ware("test2", "test2", 20, besonderheiten, maengel);
-        WareDaoXML wareDaoXML = new WareDaoXML();
-
-        //wareDaoXML.create();
-        //wareDaoXML.create(test);
-        //wareDaoXML.update(test);
-        //wareDaoXML.delete(10L);
-        //System.out.println(wareDaoXML.readAll());
-        //System.out.println(wareDaoXML.read(10L));
-    }
-     */
-
     @Override
     public IWare create()
     {

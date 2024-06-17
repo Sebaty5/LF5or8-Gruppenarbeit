@@ -21,12 +21,11 @@ public class DataLayerManager {
     }
 
     public IDataLayer getDataLayer() {
-        switch (readPersistenceType()) {
-            case SQLITE: return new DataLayerSqlite();
-            case XML: return new DataLayerXML();
-            case JSON: return new DataLayerSqlite();
-        }
-        return null;
+        return switch (readPersistenceType()) {
+            case SQLITE -> new DataLayerSqlite();
+            case XML -> new DataLayerXML();
+            case JSON -> new DataLayerSqlite();
+        };
     }
 
     private PersistenceType readPersistenceType() {

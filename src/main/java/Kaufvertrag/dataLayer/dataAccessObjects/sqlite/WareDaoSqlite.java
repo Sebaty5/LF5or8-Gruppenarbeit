@@ -14,7 +14,6 @@ import java.util.Map;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
 
 public class WareDaoSqlite implements IDao<IWare, Long> {
     private final String tableName = "ware";

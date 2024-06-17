@@ -18,23 +18,6 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
 {
     private static final String VERTRAGSPARTNER_XML = "./XML/vertragspartnerTest.xml"; // Adjust the path as needed
 
-    public static void main(String[] args)
-    {
-        Adresse testAdresse = new Adresse("testStraße", "123a", "2034a", "testOrt");
-        Vertragspartner testVertragspartner = new Vertragspartner("Maxi", "Muster");
-        testVertragspartner.setAdresse(testAdresse);
-        testVertragspartner.setAusweisNr("12fefsq23");
-
-        VertragspartnerDaoXML vertragspartnerDaoXML = new VertragspartnerDaoXML();
-
-        //vertragspartnerDaoXML.create();
-        //vertragspartnerDaoXML.create(testVertragspartner);
-        //vertragspartnerDaoXML.update(testVertragspartner);
-        //vertragspartnerDaoXML.delete(String.valueOf(10));
-        //System.out.println(vertragspartnerDaoXML.readAll());
-        //System.out.println(vertragspartnerDaoXML.read(String.valueOf(10)));
-    }
-
     @Override
     public IVertragspartner create()
     {
@@ -170,7 +153,7 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         ausweisNrElement.appendChild(doc.createTextNode(String.valueOf(vertragspartner.getAusweisNr())));
         vertragspartnerElement.appendChild(ausweisNrElement);
 
-        Element vornameElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "vormame");
+        Element vornameElement = doc.createElementNS("https://www.w3schools.com", ServiceXML.getPrefix() + "vorname");
         vornameElement.appendChild(doc.createTextNode(vertragspartner.getVorname()));
         vertragspartnerElement.appendChild(vornameElement);
 
