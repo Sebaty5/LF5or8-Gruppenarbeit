@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
 {
-    private static final String VERTRAGSPARTNER_XML = "src/main/java/Kaufvertrag/dataLayer/dataAccessObjects/XML/vertragspartnerTest.xml"; // Adjust the path as needed
+    private static final String VERTRAGSPARTNER_XML = "./XML/vertragspartnerTest.xml"; // Adjust the path as needed
 
     /*
     public static void main(String[] args)

@@ -16,7 +16,7 @@ public class TestMain {
 
     public static void main(String[] args) {
         testXML();
-        //testSQLite();
+        testSQLite();
     }
 
     private static void testSQLite() {

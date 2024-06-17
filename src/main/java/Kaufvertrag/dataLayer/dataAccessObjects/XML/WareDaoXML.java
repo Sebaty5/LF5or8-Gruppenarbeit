@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class WareDaoXML implements IDao<IWare, Long>
 {
-    private static final String WARE_XML = "src/main/java/Kaufvertrag/dataLayer/dataAccessObjects/XML/wareTest.xml"; // Adjust the path as needed
+    private static final String WARE_XML = "./XML/wareTest.xml"; // Adjust the path as needed
 
     /*
     public static void main(String[] args)
