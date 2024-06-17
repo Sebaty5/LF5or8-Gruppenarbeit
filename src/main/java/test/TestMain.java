@@ -10,6 +10,7 @@ import Kaufvertrag.dataLayer.dataAccessObjects.*;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("CallToPrintStackTrace")
 public class TestMain {
 
     private static final DataLayerManager dlm = DataLayerManager.getInstance();
