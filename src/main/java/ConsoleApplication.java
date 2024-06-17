@@ -115,56 +115,30 @@ public class ConsoleApplication implements IApplication
             System.out.println("If you want to cancel creating, please input \"c\".");
             String attributeInput = sc.nextLine().trim().toLowerCase();
             switch (attributeInput) {
-                case "ausweisnr" -> {
-                    System.out.println("Please input a value.");
-                    ausweisNr = sc.nextLine().trim();
-                    System.out.println(ausweisNr + " entered.");
-                }
-                case "vorname" -> {
-                    System.out.println("Please input a value.");
-                    vorname = sc.nextLine().trim();
-                    System.out.println(vorname + " entered.");
-                }
-                case "nachname" -> {
-                    System.out.println("Please input a value.");
-                    nachname = sc.nextLine().trim();
-                    System.out.println(nachname + " entered.");
-                }
-                case "strasse" -> {
-                    System.out.println("Please input a value.");
-                    strasse = sc.nextLine().trim();
-                    System.out.println(strasse + " entered.");
-                }
-                case "hausnr" -> {
-                    System.out.println("Please input a value.");
-                    hausNr = sc.nextLine().trim();
-                    System.out.println(hausNr + " entered.");
-                }
-                case "plz" -> {
-                    System.out.println("Please input a value.");
-                    plz = sc.nextLine().trim();
-                    System.out.println(plz + " entered.");
-                }
-                case "ort" -> {
-                    System.out.println("Please input a value.");
-                    ort = sc.nextLine().trim();
-                    System.out.println(ort + " entered.");
-                }
+                case "ausweisnr" -> ausweisNr = inputValue();
+                case "vorname" -> vorname = inputValue();
+                case "nachname" -> nachname = inputValue();
+                case "strasse" -> strasse = inputValue();
+                case "hausnr" -> hausNr = inputValue();
+                case "plz" -> plz = inputValue();
+                case "ort" -> ort = inputValue();
                 case "create" -> {
-                    IVertragspartner vertragspartner = new Vertragspartner(vorname, nachname);
-                    vertragspartner.setAdresse(new Adresse(strasse, hausNr, plz, ort));
-                    vertragspartner.setAusweisNr(ausweisNr);
-
-                    dataAccessObject.create(vertragspartner);
-
-                    System.out.println("you successfully created the object:\n" + vertragspartner);
-
+                    createVertragspartnerObject(dataAccessObject, vorname, nachname, strasse, hausNr, plz, ort, ausweisNr);
                     creating = false;
                 }
                 case "c" -> creating = false;
             }
         }
     }
+    private static void createVertragspartnerObject(IDao<IVertragspartner, String> dataAccessObject, String vorname, String nachname, String strasse, String hausNr, String plz, String ort, String ausweisNr)
+    {
+        IVertragspartner vertragspartner = new Vertragspartner(vorname, nachname);
+        vertragspartner.setAdresse(new Adresse(strasse, hausNr, plz, ort));
+        vertragspartner.setAusweisNr(ausweisNr);
+        dataAccessObject.create(vertragspartner);
+        System.out.println("you successfully created the object:\n" + vertragspartner);
+    }
+
     private void readVertragspartner(IDao<IVertragspartner, String> dataAccessObject) throws DaoException
     {
         System.out.println("Please enter the ID of the object you want to read.");
@@ -201,56 +175,30 @@ public class ConsoleApplication implements IApplication
             System.out.println("If you want to cancel the update, please input \"c\".");
             String attributeInput = sc.nextLine().trim().toLowerCase();
             switch (attributeInput) {
-                case "ausweisnr" -> {
-                    System.out.println("Please input a value.");
-                    ausweisNr = sc.nextLine().trim();
-                    System.out.println(ausweisNr + " entered.");
-                }
-                case "vorname" -> {
-                    System.out.println("Please input a value.");
-                    vorname = sc.nextLine().trim();
-                    System.out.println(vorname + " entered.");
-                }
-                case "nachname" -> {
-                    System.out.println("Please input a value.");
-                    nachname = sc.nextLine().trim();
-                    System.out.println(nachname + " entered.");
-                }
-                case "strasse" -> {
-                    System.out.println("Please input a value.");
-                    strasse = sc.nextLine().trim();
-                    System.out.println(strasse + " entered.");
-                }
-                case "hausnr" -> {
-                    System.out.println("Please input a value.");
-                    hausNr = sc.nextLine().trim();
-                    System.out.println(hausNr + " entered.");
-                }
-                case "plz" -> {
-                    System.out.println("Please input a value.");
-                    plz = sc.nextLine().trim();
-                    System.out.println(plz + " entered.");
-                }
-                case "ort" -> {
-                    System.out.println("Please input a value.");
-                    ort = sc.nextLine().trim();
-                    System.out.println(ort + " entered.");
-                }
+                case "ausweisnr" -> ausweisNr = inputValue();
+                case "vorname" -> vorname = inputValue();
+                case "nachname" -> nachname = inputValue();
+                case "strasse" -> strasse = inputValue();
+                case "hausnr" -> hausNr = inputValue();
+                case "plz" -> plz = inputValue();
+                case "ort" -> ort = inputValue();
                 case "update" -> {
-                    IVertragspartner vertragspartner = new Vertragspartner(vorname, nachname);
-                    vertragspartner.setAdresse(new Adresse(strasse, hausNr, plz, ort));
-                    vertragspartner.setAusweisNr(ausweisNr);
-                    vertragspartner.setId(id);
-
-                    dataAccessObject.update(vertragspartner);
-
-                    System.out.println("you succesfully updated the object:\n" + vertragspartner);
-
+                    updateVertragspartnerObject(dataAccessObject, vorname, nachname, strasse, hausNr, plz, ort, ausweisNr, id);
                     updating = false;
                 }
                 case "c" -> updating = false;
             }
         }
+    }
+
+    private static void updateVertragspartnerObject(IDao<IVertragspartner, String> dataAccessObject, String vorname, String nachname, String strasse, String hausNr, String plz, String ort, String ausweisNr, String id)
+    {
+        IVertragspartner vertragspartner = new Vertragspartner(vorname, nachname);
+        vertragspartner.setAdresse(new Adresse(strasse, hausNr, plz, ort));
+        vertragspartner.setAusweisNr(ausweisNr);
+        vertragspartner.setId(id);
+        dataAccessObject.update(vertragspartner);
+        System.out.println("you succesfully updated the object:\n" + vertragspartner);
     }
 
     private void deleteVertragspartner(IDao<IVertragspartner, String> dataAccessObject)
@@ -276,45 +224,25 @@ public class ConsoleApplication implements IApplication
             System.out.println("If you want to cancel creating, please input \"c\".");
             String attributeInput = sc.nextLine().trim().toLowerCase();
             switch (attributeInput) {
-                case "bezeichnung" -> {
-                    System.out.println("Please input a value.");
-                    bezeichnung = sc.nextLine().trim();
-                    System.out.println(beschreibung + " entered.");
-                }
-                case "beschreibung" -> {
-                    System.out.println("Please input a value.");
-                    beschreibung = sc.nextLine().trim();
-                    System.out.println(beschreibung + " entered.");
-                }
-                case "preis" -> {
-                    System.out.println("Please input a value. Follow the format of \"X.YY\"");
-                    preis = Double.parseDouble(sc.nextLine().trim());
-                    System.out.println(preis + " entered.");
-                }
-                case "besonderheiten" -> {
-                    System.out.println("Please input a value. You can enter multiple ones by separating them with \";\"");
-                    String besonderheitenString = sc.nextLine().trim();
-                    besonderheiten = Arrays.stream(besonderheitenString.split(";")).toList();
-                    System.out.println(besonderheitenString + " entered.");
-                }
-                case "maengel" -> {
-                    System.out.println("Please input a value. You can enter multiple ones by separating them with \";\"");
-                    String maengelString = sc.nextLine().trim();
-                    maengel = Arrays.stream(maengelString.split(";")).toList();
-                    System.out.println(maengelString + " entered.");
-                }
+                case "bezeichnung" -> bezeichnung = inputValue();
+                case "beschreibung" -> beschreibung = inputValue();
+                case "preis" -> preis = inputValueDouble();
+                case "besonderheiten" -> besonderheiten = inputValueList();
+                case "maengel" -> maengel = inputValueList();
                 case "create" -> {
-                    IWare ware = new Ware(bezeichnung, beschreibung, preis, besonderheiten, maengel);
-
-                    dataAccessObject.create(ware);
-
-                    System.out.println("you succesfully created the object:\n" + ware);
-
+                    createWareObject(dataAccessObject, bezeichnung, beschreibung, preis, besonderheiten, maengel);
                     creating = false;
                 }
                 case "c" -> creating = false;
             }
         }
+    }
+
+    private static void createWareObject(IDao<IWare, Long> dataAccessObject, String bezeichnung, String beschreibung, double preis, List<String> besonderheiten, List<String> maengel)
+    {
+        IWare ware = new Ware(bezeichnung, beschreibung, preis, besonderheiten, maengel);
+        dataAccessObject.create(ware);
+        System.out.println("you succesfully created the object:\n" + ware);
     }
 
     private void readWare(IDao<IWare, Long> dataAccessObject) throws DaoException
@@ -351,46 +279,26 @@ public class ConsoleApplication implements IApplication
             System.out.println("If you want to cancel updating, please input \"c\".");
             String attributeInput = sc.nextLine().trim().toLowerCase();
             switch (attributeInput) {
-                case "bezeichnung" -> {
-                    System.out.println("Please input a value.");
-                    bezeichnung = sc.nextLine().trim();
-                    System.out.println(beschreibung + " entered.");
-                }
-                case "beschreibung" -> {
-                    System.out.println("Please input a value.");
-                    beschreibung = sc.nextLine().trim();
-                    System.out.println(beschreibung + " entered.");
-                }
-                case "preis" -> {
-                    System.out.println("Please input a value. Follow the format of \"X.YY\"");
-                    preis = Double.parseDouble(sc.nextLine().trim());
-                    System.out.println(preis + " entered.");
-                }
-                case "besonderheiten" -> {
-                    System.out.println("Please input a value. You can enter multiple ones by separating them with \";\"");
-                    String besonderheitenString = sc.nextLine().trim();
-                    besonderheiten = Arrays.stream(besonderheitenString.split(";")).toList();
-                    System.out.println(besonderheitenString + " entered.");
-                }
-                case "maengel" -> {
-                    System.out.println("Please input a value. You can enter multiple ones by separating them with \";\"");
-                    String maengelString = sc.nextLine().trim();
-                    maengel = Arrays.stream(maengelString.split(";")).toList();
-                    System.out.println(maengelString + " entered.");
-                }
+                case "bezeichnung" -> bezeichnung = inputValue();
+                case "beschreibung" -> beschreibung = inputValue();
+                case "preis" -> preis = inputValueDouble();
+                case "besonderheiten" -> besonderheiten = inputValueList();
+                case "maengel" -> maengel = inputValueList();
                 case "update" -> {
-                    IWare ware = new Ware(bezeichnung, beschreibung, preis, besonderheiten, maengel);
-                    ware.setId(Long.parseLong(id));
-
-                    dataAccessObject.update(ware);
-
-                    System.out.println("you successfully updated the object:\n" + ware);
-
+                    updateWareObject(dataAccessObject, bezeichnung, beschreibung, preis, besonderheiten, maengel, id);
                     updating = false;
                 }
                 case "c" -> updating = false;
             }
         }
+    }
+
+    private static void updateWareObject(IDao<IWare, Long> dataAccessObject, String bezeichnung, String beschreibung, double preis, List<String> besonderheiten, List<String> maengel, String id)
+    {
+        IWare ware = new Ware(bezeichnung, beschreibung, preis, besonderheiten, maengel);
+        ware.setId(Long.parseLong(id));
+        dataAccessObject.update(ware);
+        System.out.println("you successfully updated the object:\n" + ware);
     }
 
     private void deleteWare(IDao<IWare, Long> dataAccessObject)
@@ -399,5 +307,26 @@ public class ConsoleApplication implements IApplication
         Long id = Long.parseLong(sc.nextLine().trim());
         dataAccessObject.delete(id);
         System.out.println("object successfully deleted.");
+    }
+
+    String inputValue() {
+        System.out.println("Please input a value.");
+        String valueinput = sc.nextLine().trim();
+        System.out.println(valueinput + " entered.");
+        return valueinput;
+    }
+    double inputValueDouble() {
+        System.out.println("Please input a value. Follow the format of \"X.YY\"");
+        double valueinput = Double.parseDouble(sc.nextLine().trim());
+        System.out.println(valueinput + " entered.");
+        return valueinput;
+    }
+
+    List<String> inputValueList() {
+        System.out.println("Please input a value. You can enter multiple ones by separating them with \";\"");
+        String besonderheitenString = sc.nextLine().trim();
+        List<String> inputvalue = Arrays.stream(besonderheitenString.split(";")).toList();
+        System.out.println(besonderheitenString + " entered.");
+        return inputvalue;
     }
 }
