@@ -192,19 +192,14 @@ public class WareDaoXML implements IDao<IWare, Long>
     private long getValidId(List<IWare> vertragspartnerList)
     {
         long highestId = 0;
-        long currentId = 0;
         for(IWare ware : vertragspartnerList)
         {
-            currentId = ware.getId();
-            if(currentId == 0)
-            {
-                System.out.println("Id is 0!");
-            }
+            long currentId = ware.getId();
             if (currentId > highestId)
             {
                 highestId = currentId;
             }
         }
-        return currentId + 1;
+        return highestId + 1;
     }
 }

@@ -2,7 +2,6 @@ package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessInterfaces.IAdresse;
 import Kaufvertrag.businessInterfaces.IVertragspartner;
-import Kaufvertrag.businessInterfaces.IWare;
 import Kaufvertrag.dataLayer.businessClasses.Adresse;
 import Kaufvertrag.dataLayer.businessClasses.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
@@ -25,7 +24,6 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         Vertragspartner testVertragspartner = new Vertragspartner("Maxi", "Muster");
         testVertragspartner.setAdresse(testAdresse);
         testVertragspartner.setAusweisNr("12fefsq23");
-        testVertragspartner.setId(String.valueOf(10L));
 
         VertragspartnerDaoXML vertragspartnerDaoXML = new VertragspartnerDaoXML();
 
@@ -142,7 +140,7 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
         IVertragspartner newVertragspartner = new Vertragspartner(vorname, nachname);
         newVertragspartner.setAusweisNr(ausweisNr);
         newVertragspartner.setAdresse(adresse);
-        newVertragspartner.setId(String.valueOf(id));
+        newVertragspartner.setId(id);
 
         return newVertragspartner;
     }
@@ -206,20 +204,15 @@ public class VertragspartnerDaoXML implements IDao<IVertragspartner, String>
     private String getValidId(List<IVertragspartner> vertragspartnerList)
     {
         long highestId = 0;
-        long currentId = 0;
         for(IVertragspartner vertragspartner : vertragspartnerList)
         {
-            currentId = Long.parseLong(vertragspartner.getId());
-            if(currentId == 0)
-            {
-                System.out.println("Id is 0!");
-            }
+            long currentId = Long.parseLong(vertragspartner.getId());
             if (currentId > highestId)
             {
                 highestId = currentId;
             }
         }
-        return String.valueOf(currentId + 1);
+        return String.valueOf(highestId + 1);
     }
 
 }

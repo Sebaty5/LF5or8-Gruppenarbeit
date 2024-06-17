@@ -46,6 +46,13 @@ public class ServiceXML
         Transformer transformer = createTransformer();
         DOMSource source = new DOMSource(doc);
         StreamResult result = new StreamResult(new File(path));
+
+        File parentDir = new File(path).getParentFile();
+        if (parentDir != null && !parentDir.exists())
+        {
+            System.out.println("parentDir does not exist!");
+        }
+
         try
         {
             transformer.transform(source, result);
